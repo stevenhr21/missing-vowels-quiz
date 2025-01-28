@@ -1,0 +1,8 @@
+main {
+  .puzzle-text {
+    text-align: center;
+    font-size: 4rem !important;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+}

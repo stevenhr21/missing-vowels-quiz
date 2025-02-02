@@ -123,6 +123,10 @@
       font-size: 1em;
       color: var(--primary-color);
     }
+    /* New quiz content wrapper within the white box */
+    #quiz-content {
+      padding: 15px;
+    }
     /* Progress bar */
     #progress-container {
       width: 100%;
@@ -255,17 +259,20 @@
 
     <!-- Quiz Page -->
     <div id="quiz-page" class="hidden">
-      <div id="quiz-header">
-        <h2 id="quiz-category"></h2>
-        <div id="timer">00:00</div>
+      <div id="quiz-content">
+        <div id="quiz-header">
+          <h2 id="quiz-category"></h2>
+          <div id="timer">00:00</div>
+        </div>
+        <!-- Progress indicator -->
+        <div id="progress-container">
+          <div id="progress-bar"></div>
+        </div>
+        <!-- Puzzle question (with quicker fade animation) -->
+        <div id="puzzle-display"></div>
+        <!-- Input text box is now inside quiz-content -->
+        <input type="text" id="answer-input" placeholder="Type your answer...">
       </div>
-      <!-- Progress indicator -->
-      <div id="progress-container">
-        <div id="progress-bar"></div>
-      </div>
-      <!-- Puzzle question (with quicker fade animation) -->
-      <div id="puzzle-display"></div>
-      <input type="text" id="answer-input" placeholder="Type your answer...">
       <div style="text-align: center;">
         <button id="skip-button">Skip</button>
       </div>
@@ -299,7 +306,7 @@
   </div>
 
   <script>
-    // New quiz data with the updated categories and questions
+    // New quiz data with updated categories and questions
     const quizData = {
       "Jane Austen Novels": [
         "SENSE AND SENSIBILITY",

@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Missing Vowels Challenge</title>
   <style>
+    /* Ensure padding is included in the element's total width */
+    * {
+      box-sizing: border-box;
+    }
     :root {
       --primary-color: #092f60;
       --secondary-color: #d3dce5;
@@ -123,7 +127,7 @@
       font-size: 1em;
       color: var(--primary-color);
     }
-    /* New quiz content wrapper within the white box */
+    /* New wrapper for quiz content so that the input box aligns with the question */
     #quiz-content {
       padding: 15px;
     }
@@ -270,7 +274,7 @@
         </div>
         <!-- Puzzle question (with quicker fade animation) -->
         <div id="puzzle-display"></div>
-        <!-- Input text box is now inside quiz-content -->
+        <!-- Input text box is within the same quiz-content -->
         <input type="text" id="answer-input" placeholder="Type your answer...">
       </div>
       <div style="text-align: center;">

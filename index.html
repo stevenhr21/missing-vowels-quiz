@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Missing Vowels Challenge</title>
+  <style>
+    :root {
+      --primary-color: #092f60;
+      --secondary-color: #d3dce5;
+      --hover-color: #071d4a;
+      --focus-shadow: 0 0 0 3px rgba(9, 47, 96, 0.5);
+      --font-family: 'Bahnschrift', sans-serif;
+    }
+    body {
+      font-family: var(--font-family);
+      font-weight: bold;
+      margin: 0;
+      padding: 0;
+      background-color: var(--secondary-color);
+    }
+    .global-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    .global-header button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      transition: transform 0.1s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .global-header button:active {
+      transform: scale(0.95);
+    }
+    .global-header button:hover {
+      background-color: var(--hover-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .global-header button:focus {
+      outline: none;
+      box-shadow: var(--focus-shadow);
+    }
+    .global-header svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--secondary-color);
+    }
+    .container {
+      max-width: 600px;
+      margin: 70px auto 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+      color: var(--primary-color);
+    }
+    button, .icon-button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 1em;
+      transition: transform 0.1s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover, .icon-button:hover {
+      background-color: var(--hover-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    button:active, .icon-button:active {
+      transform: scale(0.95);
+    }
+    button:focus, .icon-button:focus {
+      outline: none;
+      box-shadow: var(--focus-shadow);
+    }
+    /* Icon-only buttons */
+    .icon-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-button svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--secondary-color);
+    }
+    select, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid var(--primary-color);
+      border-radius: 4px;
+      font-size: 1em;
+      transition: border-color 0.3s ease;
+    }
+    select:focus, input[type="text"]:focus {
+      border-color: var(--hover-color);
+      outline: none;
+      box-shadow: var(--focus-shadow);
+    }
+    #quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #timer {
+      font-size: 1em;
+      color: var(--primary-color);
+    }
+    /* Progress bar */
+    #progress-container {
+      width: 100%;
+      height: 10px;
+      background-color: #ccc;
+      border-radius: 5px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+    /* Puzzle display with quicker fade transition */
+    #puzzle-display {
+      background-color: var(--secondary-color);
+      border-radius: 8px;
+      padding: 20px;
+      color: var(--primary-color);
+      font-size: 2em;
+      text-align: center;
+      letter-spacing: 2px;
+      margin: 20px 0;
+      transition: opacity 0.2s ease;
+      opacity: 1;
+    }
+    .hidden {
+      display: none;
+    }
+    .correct-indicator {
+      color: green;
+      font-size: 1.5em;
+    }
+    /* Leaderboard (card layout) styling */
+    #leaderboard-page {
+      text-align: center;
+    }
+    #leaderboard-sort {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    #leaderboard-sort button {
+      padding: 5px 10px;
+      font-size: 0.9em;
+      border: 1px solid var(--primary-color);
+      border-radius: 4px;
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    #leaderboard-sort button:hover {
+      background-color: var(--hover-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    #leaderboard-sort button:focus {
+      outline: none;
+      box-shadow: var(--focus-shadow);
+    }
+    #leaderboard-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 10px;
+    }
+    .leaderboard-card {
+      padding: 15px;
+      background-color: var(--secondary-color);
+      border: 1px solid var(--primary-color);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      text-align: left;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+      #puzzle-display {
+        font-size: 1.5em;
+      }
+      #leaderboard-sort button {
+        font-size: 0.8em;
+        padding: 5px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="global-header">
+    <!-- Global Home button with house icon -->
+    <button id="global-home-button" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </button>
+  </div>
+  <div class="container">
+    <!-- Welcome Page -->
+    <div id="welcome-page">
+      <h1>Missing Vowels Challenge</h1>
+      <select id="category-select">
+        <option value="Jane Austen Novels">Jane Austen Novels</option>
+        <option value="National Crime Agency">National Crime Agency</option>
+        <option value="South London Superstars & Their Borough of Birth">South London Superstars &amp; Their Borough of Birth</option>
+        <option value="Book Club Books">Book Club Books</option>
+        <option value="Brands and their slogans">Brands and their slogans</option>
+        <option value="Famous characters and their creators">Famous characters and their creators</option>
+        <option value="Vine (RIP)">Vine (RIP)</option>
+      </select>
+      <div style="text-align: center;">
+        <!-- Start button with play icon -->
+        <button id="start-button" class="icon-button" title="Start">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </button>
+        <!-- Leaderboard button with bullet list icon -->
+        <button id="leaderboard-button" class="icon-button" title="Leaderboard">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M4 10.5c0 .83-.67 1.5-1.5 1.5S1 11.33 1 10.5 1.67 9 2.5 9 4 9.67 4 10.5zm0-6c0 .83-.67 1.5-1.5 1.5S1 5.33 1 4.5 1.67 3 2.5 3 4 3.67 4 4.5zm0 12c0 .83-.67 1.5-1.5 1.5S1 17.33 1 16.5 1.67 15 2.5 15 4 15.67 4 16.5zM7 4h14v2H7V4zm0 6h14v2H7v-2zm0 6h14v2H7v-2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quiz Page -->
+    <div id="quiz-page" class="hidden">
+      <div id="quiz-header">
+        <h2 id="quiz-category"></h2>
+        <div id="timer">00:00</div>
+      </div>
+      <!-- Progress indicator -->
+      <div id="progress-container">
+        <div id="progress-bar"></div>
+      </div>
+      <!-- Puzzle question (with quicker fade animation) -->
+      <div id="puzzle-display"></div>
+      <input type="text" id="answer-input" placeholder="Type your answer...">
+      <div style="text-align: center;">
+        <button id="skip-button">Skip</button>
+      </div>
+      <div id="feedback" style="text-align: center;"></div>
+    </div>
+
+    <!-- Results Page -->
+    <div id="results-page" class="hidden">
+      <h2>Quiz Results</h2>
+      <p id="results-category"></p>
+      <p id="results-score"></p>
+      <p id="results-time"></p>
+      <div style="text-align: center;">
+        <button id="restart-button">Restart</button>
+        <button id="results-home-button">Home</button>
+        <button id="results-leaderboard-button">Leaderboard</button>
+      </div>
+    </div>
+
+    <!-- Leaderboard Page (card layout with sort bar) -->
+    <div id="leaderboard-page" class="hidden">
+      <h2>Leaderboard</h2>
+      <div id="leaderboard-sort">
+        <button data-sort="category">Category</button>
+        <button data-sort="score">Score</button>
+        <button data-sort="time">Time</button>
+        <button data-sort="date">Date</button>
+      </div>
+      <div id="leaderboard-cards"></div>
+    </div>
+  </div>
+
+  <script>
+    // New quiz data with the updated categories and questions
+    const quizData = {
+      "Jane Austen Novels": [
+        "SENSE AND SENSIBILITY",
+        "PRIDE AND PREJUDICE",
+        "MANSFIELD PARK",
+        "EMMA",
+        "NORTHANGER ABBEY",
+        "PERSUASION",
+        "SANDITON",
+        "LADY SUSAN",
+        "THE WATSONS"
+      ],
+      "National Crime Agency": [
+        "CHILD EXPLOITATION ONLINE PROTECTION",
+        "NATIONAL CYBER CRIME UNIT",
+        "MODERN SLAVERY AND HUMAN TRAFFICKING",
+        "ORGANISED IMMIGRATION CRIME",
+        "NATIONAL ASSESSMENT CENTRE",
+        "NATIONAL DATA EXPLOITATION CAPABILITY",
+        "SERIOUS CRIME ANALYSIS SECTION",
+        "UK INTERNATIONAL CRIME BUREAU",
+        "UK LIAISON BUREAU",
+        "UK PROTECTED PERSONS SERVICE",
+        "THREAT MANAGEMENT TEAM"
+      ],
+      "South London Superstars & Their Borough of Birth": [
+        "DAVID BOWIE AND LAMBETH",
+        "HERBERT GEORGE WELLS AND BROMLEY",
+        "GARY OLDMAN AND LEWISHAM",
+        "DOMINIC COOPER AND GREENWICH",
+        "DERREN BROWN AND CROYDON",
+        "TIM VINE AND SUTTON",
+        "QUENTIN BLAKE AND BEXLEY"
+      ],
+      "Book Club Books": [
+        "THE THREE BODY PROBLEM",
+        "TRANSLATION STATE",
+        "BIRNAM WOOD",
+        "THE THIRD POLICEMAN",
+        "I WHO HAVE NEVER KNOWN MEN"
+      ],
+      "Brands and their slogans": [
+        "NIKE JUST DO IT",
+        "APPLE THINK DIFFERENT",
+        "KENTUCKY FRIED CHICKEN FINGER LICKIN GOOD",
+        "MCDONALDS I'M LOVIN IT"
+      ],
+      "Famous characters and their creators": [
+        "SPIDERMAN AND STAN LEE",
+        "HARRY POTTER AND JK ROWLING",
+        "ARTHUR DENT AND DOUGLAS ADAMS",
+        "ELIZABETH BENNET AND JANE AUSTEN",
+        "EDWARD CULLEN AND STEPHENIE MEYER"
+      ],
+      "Vine (RIP)": [
+        "OH MY GOD HE ON XGAMES MODE",
+        "STOP I COULD HAVE DROPPED MY CROISSANT",
+        "LOOK AT ALL THOSE CHICKENS",
+        "DO IT FOR THE VINE",
+        "HURRICANE KATRINA MORE LIKE HURRICANE TORTILLA"
+      ]
+    };
+
+    let currentCategory = "";
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let startTime, timerInterval;
+    let skippedQuestions = [];
+
+    // Global variables for leaderboard sorting
+    const sortDirections = { category: 'asc', score: 'asc', time: 'asc', date: 'asc' };
+    let currentSortColumn = null;
+
+    // Function to create puzzle by removing vowels and grouping consonants
+    function generatePuzzle(answer) {
+      const vowels = /[AEIOU\s]/gi;
+      const consonants = answer.toUpperCase().replace(vowels, '');
+      let groups = [];
+      let i = 0;
+      while (i < consonants.length) {
+        let remaining = consonants.length - i;
+        let maxGroup = Math.min(3, remaining);
+        let groupSize = Math.floor(Math.random() * maxGroup) + 1;
+        groups.push(consonants.substr(i, groupSize));
+        i += groupSize;
+      }
+      return groups.join(' ');
+    }
+
+    // DOM Elements
+    const welcomePage = document.getElementById('welcome-page');
+    const quizPage = document.getElementById('quiz-page');
+    const resultsPage = document.getElementById('results-page');
+    const leaderboardPage = document.getElementById('leaderboard-page');
+
+    const categorySelect = document.getElementById('category-select');
+    const startButton = document.getElementById('start-button');
+    const leaderboardButton = document.getElementById('leaderboard-button');
+
+    const quizCategoryElem = document.getElementById('quiz-category');
+    const timerElem = document.getElementById('timer');
+    const puzzleDisplay = document.getElementById('puzzle-display');
+    const answerInput = document.getElementById('answer-input');
+    const skipButton = document.getElementById('skip-button');
+    const feedbackElem = document.getElementById('feedback');
+
+    const resultsCategoryElem = document.getElementById('results-category');
+    const resultsScoreElem = document.getElementById('results-score');
+    const resultsTimeElem = document.getElementById('results-time');
+    const restartButton = document.getElementById('restart-button');
+    const resultsHomeButton = document.getElementById('results-home-button');
+    const resultsLeaderboardButton = document.getElementById('results-leaderboard-button');
+
+    // Leaderboard (card layout) elements
+    const leaderboardCards = document.getElementById('leaderboard-cards');
+    const globalHomeButton = document.getElementById('global-home-button');
+
+    // Navigation: show only one page at a time.
+    function showPage(page) {
+      welcomePage.classList.add('hidden');
+      quizPage.classList.add('hidden');
+      resultsPage.classList.add('hidden');
+      leaderboardPage.classList.add('hidden');
+      page.classList.remove('hidden');
+    }
+
+    // Global Home Button function
+    function goHome() {
+      stopTimer();
+      showPage(welcomePage);
+      answerInput.value = "";
+    }
+    globalHomeButton.addEventListener('click', goHome);
+    resultsHomeButton.addEventListener('click', goHome);
+
+    // Timer functions
+    function startTimer() {
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+    function updateTimer() {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
+      const seconds = String(elapsed % 60).padStart(2, '0');
+      timerElem.textContent = `${minutes}:${seconds}`;
+    }
+    function stopTimer() {
+      clearInterval(timerInterval);
+      return Math.floor((Date.now() - startTime) / 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const progressBar = document.getElementById('progress-bar');
+      const percentage = (currentQuestionIndex / questions.length) * 100;
+      progressBar.style.width = percentage + '%';
+    }
+
+    // Display question with a fade-out then fade-in effect on the puzzle text (quicker transition)
+    function displayQuestion() {
+      answerInput.value = "";
+      feedbackElem.textContent = "";
+      updateProgress();
+      if (currentQuestionIndex < questions.length) {
+        // Fade out puzzle text
+        puzzleDisplay.style.opacity = 0;
+        setTimeout(() => {
+          const answer = questions[currentQuestionIndex];
+          puzzleDisplay.textContent = generatePuzzle(answer);
+          puzzleDisplay.style.opacity = 1;
+          answerInput.focus();
+        }, 200);
+      } else {
+        finishQuiz();
+      }
+    }
+
+    // Automatically check answer as the user types
+    function checkAnswer() {
+      const userAnswer = answerInput.value.trim().toLowerCase();
+      const correctAnswer = questions[currentQuestionIndex].toLowerCase();
+      if (userAnswer === correctAnswer) {
+        feedbackElem.innerHTML = '<span class="correct-indicator">&#10003;</span>';
+        setTimeout(() => {
+          score++;
+          currentQuestionIndex++;
+          displayQuestion();
+        }, 200);
+      }
+    }
+
+    // Skip the current question
+    function skipQuestion() {
+      skippedQuestions.push(questions[currentQuestionIndex]);
+      currentQuestionIndex++;
+      displayQuestion();
+    }
+
+    // End the quiz, show results and save to leaderboard
+    function finishQuiz() {
+      const totalTime = stopTimer();
+      resultsCategoryElem.textContent =
+        "Category: " + (currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1));
+      resultsScoreElem.textContent =
+        "Correct Answers: " + score + " / " + questions.length;
+      const minutes = String(Math.floor(totalTime / 60)).padStart(2, '0');
+      const seconds = String(totalTime % 60).padStart(2, '0');
+      resultsTimeElem.textContent = "Time Taken: " + minutes + ":" + seconds;
+      saveResult({ category: currentCategory, score, time: totalTime, date: new Date().toISOString() });
+      showPage(resultsPage);
+    }
+
+    // Save result to localStorage
+    function saveResult(result) {
+      const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
+      leaderboard.push(result);
+      localStorage.setItem('missingVowelsLeaderboard', JSON.stringify(leaderboard));
+    }
+
+    // Render leaderboard as a set of cards
+    function renderLeaderboard(leaderboard) {
+      leaderboardCards.innerHTML = "";
+      leaderboard.forEach(entry => {
+        const card = document.createElement('div');
+        card.classList.add('leaderboard-card');
+        const date = new Date(entry.date);
+        const minutes = String(Math.floor(entry.time / 60)).padStart(2, '0');
+        const seconds = String(entry.time % 60).padStart(2, '0');
+        card.innerHTML = `
+          <strong>Category:</strong> ${entry.category.charAt(0).toUpperCase() + entry.category.slice(1)}<br>
+          <strong>Score:</strong> ${entry.score} / ${quizData[entry.category].length || 'N/A'}<br>
+          <strong>Time:</strong> ${minutes}:${seconds}<br>
+          <strong>Date:</strong> ${date.toLocaleDateString()}
+        `;
+        leaderboardCards.appendChild(card);
+      });
+    }
+
+    // Leaderboard sorting functions and indicators
+    function updateSortIndicators() {
+      const sortButtons = document.querySelectorAll('#leaderboard-sort button');
+      sortButtons.forEach(button => {
+        const sortBy = button.getAttribute('data-sort');
+        let baseText = button.innerText.split(" ")[0];
+        if (sortBy === currentSortColumn) {
+          const arrow = sortDirections[sortBy] === 'asc' ? '▲' : '▼';
+          button.innerText = baseText + " " + arrow;
+        } else {
+          button.innerText = baseText;
+        }
+      });
+    }
+    function sortLeaderboard(sortBy, sortDir) {
+      const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
+      leaderboard.sort((a, b) => {
+        let valA = a[sortBy];
+        let valB = b[sortBy];
+        if (sortBy === 'date') {
+          valA = new Date(valA);
+          valB = new Date(valB);
+        }
+        if (valA < valB) return sortDir === 'asc' ? -1 : 1;
+        if (valA > valB) return sortDir === 'asc' ? 1 : -1;
+        return 0;
+      });
+      renderLeaderboard(leaderboard);
+      updateSortIndicators();
+    }
+    function setupLeaderboardSorting() {
+      const sortButtons = document.querySelectorAll('#leaderboard-sort button');
+      sortButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const sortBy = button.getAttribute('data-sort');
+          sortDirections[sortBy] = sortDirections[sortBy] === 'asc' ? 'desc' : 'asc';
+          currentSortColumn = sortBy;
+          sortLeaderboard(sortBy, sortDirections[sortBy]);
+        });
+      });
+    }
+    function showLeaderboard() {
+      setupLeaderboardSorting();
+      const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
+      renderLeaderboard(leaderboard);
+      updateSortIndicators();
+      showPage(leaderboardPage);
+    }
+
+    // Event listeners
+    startButton.addEventListener('click', () => {
+      currentCategory = categorySelect.value;
+      questions = quizData[currentCategory].slice();
+      currentQuestionIndex = 0;
+      score = 0;
+      skippedQuestions = [];
+      showPage(quizPage);
+      quizCategoryElem.textContent = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+      startTimer();
+      displayQuestion();
+    });
+    leaderboardButton.addEventListener('click', showLeaderboard);
+    skipButton.addEventListener('click', skipQuestion);
+    answerInput.addEventListener('input', checkAnswer);
+    restartButton.addEventListener('click', () => {
+      currentQuestionIndex = 0;
+      score = 0;
+      skippedQuestions = [];
+      showPage(quizPage);
+      startTimer();
+      displayQuestion();
+    });
+    resultsLeaderboardButton.addEventListener('click', showLeaderboard);
+  </script>
+</body>
+</html>

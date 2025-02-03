@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Missing Vowels</title>
+  <title>Missing Vowels Challenge</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -37,7 +37,9 @@
   <div class="container">
     <!-- Welcome Page -->
     <div id="welcome-page">
-      <h1>Missing Vowels</h1>
+      <div id="welcome-header">
+        <h1>MISSING VOWELS</h1>
+      </div>
       <select id="category-select">
         <option value="Jane Austen Novels">Jane Austen Novels</option>
         <option value="National Crime Agency">National Crime Agency</option>
@@ -79,6 +81,7 @@
         <div id="progress-container">
           <div id="progress-bar"></div>
         </div>
+        <!-- Puzzle display uses the same sleek gradient -->
         <div id="puzzle-display"></div>
         <input type="text" id="answer-input" placeholder="Type your answer...">
       </div>
@@ -113,10 +116,33 @@
       <div id="leaderboard-cards"></div>
     </div>
     
-    <!-- Additional Pages -->
+    <!-- Connections Page with Hieroglyph Grid -->
     <div id="connections-page" class="subpage hidden">
       <h2>Connections</h2>
-      <p>Placeholder for Connections page</p>
+      <div class="hieroglyph-grid">
+        <!-- Two Reeds Button: inline SVG from provided URL -->
+        <div class="hieroglyph-rectangle" data-target="hieroglyph-two-reeds-page">
+          <svg class="hieroglyph-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <!-- Replace with the exact SVG from https://www.svgrepo.com/show/322528/hieroglyph-y.svg if needed -->
+            <path d="M12 0L15.09 8H24L17.455 12.91L20.545 21L12 16.09L3.455 21L6.545 12.91L0 8H8.91L12 0Z"/>
+          </svg>
+        </div>
+        <div class="hieroglyph-rectangle" data-target="hieroglyph-lion-page">
+          <span class="hieroglyph-icon">Lion</span>
+        </div>
+        <div class="hieroglyph-rectangle" data-target="hieroglyph-twisted-flax-page">
+          <span class="hieroglyph-icon">Flax</span>
+        </div>
+        <div class="hieroglyph-rectangle" data-target="hieroglyph-horned-viper-page">
+          <span class="hieroglyph-icon">Viper</span>
+        </div>
+        <div class="hieroglyph-rectangle" data-target="hieroglyph-water-page">
+          <span class="hieroglyph-icon">Water</span>
+        </div>
+        <div class="hieroglyph-rectangle" data-target="hieroglyph-eye-of-horus-page">
+          <span class="hieroglyph-icon">Horus</span>
+        </div>
+      </div>
       <div class="subpage-nav">
         <button id="missing-vowels-button-from-connections">Missing vowels</button>
         <button id="sequences-button-from-connections">Sequences</button>
@@ -128,6 +154,8 @@
         <button id="connecting-wall-button-from-connections-footer" aria-label="Connecting Wall">Connecting Wall</button>
       </div>
     </div>
+    
+    <!-- Sequences Page (Placeholder) -->
     <div id="sequences-page" class="subpage hidden">
       <h2>Sequences</h2>
       <p>Placeholder for Sequences page</p>
@@ -142,6 +170,8 @@
         <button id="connecting-wall-button-from-sequences-footer" aria-label="Connecting Wall">Connecting Wall</button>
       </div>
     </div>
+    
+    <!-- Connecting Wall Page (Placeholder) -->
     <div id="connecting-wall-page" class="subpage hidden">
       <h2>Connecting Wall</h2>
       <p>Placeholder for Connecting Wall page</p>
@@ -156,384 +186,436 @@
         <button id="sequences-button-from-connecting-wall-footer" aria-label="Sequences">Sequences</button>
       </div>
     </div>
+    
+    <!-- Hieroglyph Placeholder Pages -->
+    <div id="hieroglyph-two-reeds-page" class="subpage hidden">
+      <h2>Two Reeds</h2>
+      <p>Placeholder for Two Reeds page</p>
+      <div class="sticky-footer">
+        <button onclick="showPage(connectionsPage)">Back to Connections</button>
+      </div>
+    </div>
+    <div id="hieroglyph-lion-page" class="subpage hidden">
+      <h2>Lion</h2>
+      <p>Placeholder for Lion page</p>
+      <div class="sticky-footer">
+        <button onclick="showPage(connectionsPage)">Back to Connections</button>
+      </div>
+    </div>
+    <div id="hieroglyph-twisted-flax-page" class="subpage hidden">
+      <h2>Twisted Flax</h2>
+      <p>Placeholder for Twisted Flax page</p>
+      <div class="sticky-footer">
+        <button onclick="showPage(connectionsPage)">Back to Connections</button>
+      </div>
+    </div>
+    <div id="hieroglyph-horned-viper-page" class="subpage hidden">
+      <h2>Horned Viper</h2>
+      <p>Placeholder for Horned Viper page</p>
+      <div class="sticky-footer">
+        <button onclick="showPage(connectionsPage)">Back to Connections</button>
+      </div>
+    </div>
+    <div id="hieroglyph-water-page" class="subpage hidden">
+      <h2>Water</h2>
+      <p>Placeholder for Water page</p>
+      <div class="sticky-footer">
+        <button onclick="showPage(connectionsPage)">Back to Connections</button>
+      </div>
+    </div>
+    <div id="hieroglyph-eye-of-horus-page" class="subpage hidden">
+      <h2>Eye of Horus</h2>
+      <p>Placeholder for Eye of Horus page</p>
+      <div class="sticky-footer">
+        <button onclick="showPage(connectionsPage)">Back to Connections</button>
+      </div>
+    </div>
   </div>
   
   <script>
-    /* JavaScript for functionality */
-    // Updated Quiz Data
-    const quizData = {
-      "Jane Austen Novels": [
-        "SENSE AND SENSIBILITY",
-        "PRIDE AND PREJUDICE",
-        "MANSFIELD PARK",
-        "EMMA",
-        "NORTHANGER ABBEY",
-        "PERSUASION",
-        "SANDITON",
-        "LADY SUSAN",
-        "THE WATSONS"
-      ],
-      "National Crime Agency": [
-        "CHILD EXPLOITATION ONLINE PROTECTION",
-        "NATIONAL CYBER CRIME UNIT",
-        "MODERN SLAVERY AND HUMAN TRAFFICKING",
-        "ORGANISED IMMIGRATION CRIME",
-        "NATIONAL ASSESSMENT CENTRE",
-        "NATIONAL DATA EXPLOITATION CAPABILITY",
-        "SERIOUS CRIME ANALYSIS SECTION",
-        "UK INTERNATIONAL CRIME BUREAU",
-        "UK LIAISON BUREAU",
-        "UK PROTECTED PERSONS SERVICE",
-        "THREAT MANAGEMENT TEAM"
-      ],
-      "South London Superstars & Their Borough of Birth": [
-        "DAVID BOWIE AND LAMBETH",
-        "HERBERT GEORGE WELLS AND BROMLEY",
-        "GARY OLDMAN AND LEWISHAM",
-        "DOMINIC COOPER AND GREENWICH",
-        "DERREN BROWN AND CROYDON",
-        "TIM VINE AND SUTTON",
-        "QUENTIN BLAKE AND BEXLEY"
-      ],
-      "Book Club Books": [
-        "THE THREE BODY PROBLEM",
-        "TRANSLATION STATE",
-        "BIRNAM WOOD",
-        "THE THIRD POLICEMAN",
-        "I WHO HAVE NEVER KNOWN MEN"
-      ],
-      "Brands and their slogans": [
-        "NIKE JUST DO IT",
-        "APPLE THINK DIFFERENT",
-        "KENTUCKY FRIED CHICKEN FINGER LICKIN GOOD",
-        "MCDONALDS I'M LOVIN IT"
-      ],
-      "Famous characters and their creators": [
-        "SPIDERMAN AND STAN LEE",
-        "HARRY POTTER AND JK ROWLING",
-        "ARTHUR DENT AND DOUGLAS ADAMS",
-        "ELIZABETH BENNET AND JANE AUSTEN",
-        "EDWARD CULLEN AND STEPHENIE MEYER"
-      ],
-      "Vine (RIP)": [
-        "OH MY GOD HE ON XGAMES MODE",
-        "STOP I COULD HAVE DROPPED MY CROISSANT",
-        "LOOK AT ALL THOSE CHICKENS",
-        "DO IT FOR THE VINE",
-        "HURRICANE KATRINA MORE LIKE HURRICANE TORTILLA"
-      ],
-      "Things that can be drawn": [
-        "pair of curtains",
-        "the short straw",
-        "football match",
-        "comparison"
-      ],
-      "The careers of Barbie": [
-        "fashion editor",
-        "palaeontologist",
-        "concert pianist",
-        "aerobics instructor",
-        "sign language teacher"
-      ],
-      "Political quotes": [
-        "education education education",
-        "a week is a long time in politics",
-        "lies, damned lies and statistics",
-        "the lady's not for turning",
-        "a sheep in sheep's clothing"
-      ]
-    };
-
-    let currentCategory = "";
-    let questions = [];
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let startTime, timerInterval;
-    let skippedQuestions = [];
-
-    // Leaderboard Sorting Globals
-    const sortDirections = { category: 'asc', score: 'asc', time: 'asc', date: 'asc' };
-    let currentSortColumn = null;
-
-    // Function to generate puzzle text by removing vowels and grouping consonants
-    function generatePuzzle(answer) {
-      const vowels = /[AEIOU\s]/gi;
-      const consonants = answer.toUpperCase().replace(vowels, '');
-      let groups = [];
-      let i = 0;
-      while (i < consonants.length) {
-        let remaining = consonants.length - i;
-        let maxGroup = Math.min(3, remaining);
-        let groupSize = Math.floor(Math.random() * maxGroup) + 1;
-        groups.push(consonants.substr(i, groupSize));
-        i += groupSize;
-      }
-      return groups.join(' ');
-    }
-
-    /* DOM Elements */
-    const welcomePage = document.getElementById('welcome-page');
-    const quizPage = document.getElementById('quiz-page');
-    const resultsPage = document.getElementById('results-page');
-    const leaderboardPage = document.getElementById('leaderboard-page');
-    const connectionsPage = document.getElementById('connections-page');
-    const sequencesPage = document.getElementById('sequences-page');
-    const connectingWallPage = document.getElementById('connecting-wall-page');
-
-    const categorySelect = document.getElementById('category-select');
-    const startButton = document.getElementById('start-button');
-    const leaderboardButton = document.getElementById('leaderboard-button');
-    const connectionsButton = document.getElementById('connections-button');
-    const sequencesButton = document.getElementById('sequences-button');
-    const connectingWallButton = document.getElementById('connecting-wall-button');
-
-    const quizCategoryElem = document.getElementById('quiz-category');
-    const timerElem = document.getElementById('timer');
-    const puzzleDisplay = document.getElementById('puzzle-display');
-    const answerInput = document.getElementById('answer-input');
-    const skipButton = document.getElementById('skip-button');
-    const feedbackElem = document.getElementById('feedback');
-
-    const resultsCategoryElem = document.getElementById('results-category');
-    const resultsScoreElem = document.getElementById('results-score');
-    const resultsTimeElem = document.getElementById('results-time');
-    const restartButton = document.getElementById('restart-button');
-    const resultsHomeButton = document.getElementById('results-home-button');
-    const resultsLeaderboardButton = document.getElementById('results-leaderboard-button');
-
-    const leaderboardCards = document.getElementById('leaderboard-cards');
-    const globalHomeButton = document.getElementById('global-home-button');
-
-    /* Additional Subpage Navigation Buttons */
-    const missingVowelsBtnFromConnections = document.getElementById("missing-vowels-button-from-connections");
-    const sequencesBtnFromConnections = document.getElementById("sequences-button-from-connections");
-    const connectingWallBtnFromConnections = document.getElementById("connecting-wall-button-from-connections");
-    const missingVowelsBtnFromSequences = document.getElementById("missing-vowels-button-from-sequences");
-    const connectionsBtnFromSequences = document.getElementById("connections-button-from-sequences");
-    const connectingWallBtnFromSequences = document.getElementById("connecting-wall-button-from-sequences");
-    const missingVowelsBtnFromConnectingWall = document.getElementById("missing-vowels-button-from-connecting-wall");
-    const connectionsBtnFromConnectingWall = document.getElementById("connections-button-from-connecting-wall");
-    const sequencesBtnFromConnectingWall = document.getElementById("sequences-button-from-connecting-wall");
-
-    /* Navigation Function */
-    function showPage(page) {
-      welcomePage.classList.add('hidden');
-      quizPage.classList.add('hidden');
-      resultsPage.classList.add('hidden');
-      leaderboardPage.classList.add('hidden');
-      connectionsPage.classList.add('hidden');
-      sequencesPage.classList.add('hidden');
-      connectingWallPage.classList.add('hidden');
-      page.classList.remove('hidden');
-      document.getElementById('menu-dropdown').classList.add('hidden');
-    }
-
-    /* Global Home Function (returns to welcome page) */
-    function goHome() {
-      stopTimer();
-      showPage(welcomePage);
-      answerInput.value = "";
-    }
-    globalHomeButton.addEventListener('click', goHome);
-    resultsHomeButton.addEventListener('click', goHome);
-    missingVowelsBtnFromConnections.addEventListener('click', goHome);
-    missingVowelsBtnFromSequences.addEventListener('click', goHome);
-    missingVowelsBtnFromConnectingWall.addEventListener('click', goHome);
-
-    /* Subpage Navigation Event Listeners */
-    connectionsBtnFromSequences.addEventListener('click', () => { showPage(connectionsPage); });
-    connectingWallBtnFromSequences.addEventListener('click', () => { showPage(connectingWallPage); });
-    connectionsBtnFromConnectingWall.addEventListener('click', () => { showPage(connectionsPage); });
-    sequencesBtnFromConnectingWall.addEventListener('click', () => { showPage(sequencesPage); });
-    sequencesBtnFromConnections.addEventListener('click', () => { showPage(sequencesPage); });
-    connectingWallBtnFromConnections.addEventListener('click', () => { showPage(connectingWallPage); });
-
-    /* Timer Functions */
-    function startTimer() {
-      startTime = Date.now();
-      timerInterval = setInterval(updateTimer, 1000);
-    }
-    function updateTimer() {
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
-      const seconds = String(elapsed % 60).padStart(2, '0');
-      timerElem.textContent = `${minutes}:${seconds}`;
-    }
-    function stopTimer() {
-      clearInterval(timerInterval);
-      return Math.floor((Date.now() - startTime) / 1000);
-    }
-
-    /* Progress Bar */
-    function updateProgress() {
-      const progressBar = document.getElementById('progress-bar');
-      const percentage = (currentQuestionIndex / questions.length) * 100;
-      progressBar.style.width = percentage + '%';
-    }
-
-    /* Display Question with Fade Transition */
-    function displayQuestion() {
-      answerInput.value = "";
-      feedbackElem.textContent = "";
-      updateProgress();
-      if (currentQuestionIndex < questions.length) {
-        puzzleDisplay.style.opacity = 0;
-        setTimeout(() => {
-          const answer = questions[currentQuestionIndex];
-          puzzleDisplay.textContent = generatePuzzle(answer);
-          puzzleDisplay.style.opacity = 1;
-          answerInput.focus();
-        }, 200);
-      } else {
-        finishQuiz();
-      }
-    }
-
-    /* Check Answer */
-    function checkAnswer() {
-      const userAnswer = answerInput.value.trim().toLowerCase();
-      const correctAnswer = questions[currentQuestionIndex].toLowerCase();
-      if (userAnswer === correctAnswer) {
-        feedbackElem.innerHTML = '<span class="correct-indicator">&#10003;</span>';
-        setTimeout(() => {
-          score++;
-          currentQuestionIndex++;
-          displayQuestion();
-        }, 200);
-      }
-    }
-
-    /* Skip Question */
-    function skipQuestion() {
-      skippedQuestions.push(questions[currentQuestionIndex]);
-      currentQuestionIndex++;
-      displayQuestion();
-    }
-
-    /* End Quiz */
-    function finishQuiz() {
-      const totalTime = stopTimer();
-      resultsCategoryElem.textContent = "Category: " + (currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1));
-      resultsScoreElem.textContent = "Correct Answers: " + score + " / " + questions.length;
-      const minutes = String(Math.floor(totalTime / 60)).padStart(2, '0');
-      const seconds = String(totalTime % 60).padStart(2, '0');
-      resultsTimeElem.textContent = "Time Taken: " + minutes + ":" + seconds;
-      saveResult({ category: currentCategory, score, time: totalTime, date: new Date().toISOString() });
-      showPage(resultsPage);
-    }
-
-    /* Save Result to localStorage */
-    function saveResult(result) {
-      const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
-      leaderboard.push(result);
-      localStorage.setItem('missingVowelsLeaderboard', JSON.stringify(leaderboard));
-    }
-
-    /* Render Leaderboard as Cards */
-    function renderLeaderboard(leaderboard) {
-      leaderboardCards.innerHTML = "";
-      leaderboard.forEach(entry => {
-        const card = document.createElement('div');
-        card.classList.add('leaderboard-card');
-        const date = new Date(entry.date);
-        const minutes = String(Math.floor(entry.time / 60)).padStart(2, '0');
-        const seconds = String(entry.time % 60).padStart(2, '0');
-        card.innerHTML = `
-          <strong>Category:</strong> ${entry.category.charAt(0).toUpperCase() + entry.category.slice(1)}<br>
-          <strong>Score:</strong> ${entry.score} / ${quizData[entry.category].length || 'N/A'}<br>
-          <strong>Time:</strong> ${minutes}:${seconds}<br>
-          <strong>Date:</strong> ${date.toLocaleDateString()}
-        `;
-        leaderboardCards.appendChild(card);
-      });
-    }
-
-    /* Leaderboard Sorting Functions and Indicators */
-    function updateSortIndicators() {
-      const sortButtons = document.querySelectorAll('#leaderboard-sort button');
-      sortButtons.forEach(button => {
-        const sortBy = button.getAttribute('data-sort');
-        let baseText = button.innerText.split(" ")[0];
-        if (sortBy === currentSortColumn) {
-          const arrow = sortDirections[sortBy] === 'asc' ? '▲' : '▼';
-          button.innerText = baseText + " " + arrow;
-        } else {
-          button.innerText = baseText;
+    document.addEventListener("DOMContentLoaded", function() {
+      /* --- Quiz Data and Globals --- */
+      const quizData = {
+        "Jane Austen Novels": [
+          "SENSE AND SENSIBILITY",
+          "PRIDE AND PREJUDICE",
+          "MANSFIELD PARK",
+          "EMMA",
+          "NORTHANGER ABBEY",
+          "PERSUASION",
+          "SANDITON",
+          "LADY SUSAN",
+          "THE WATSONS"
+        ],
+        "National Crime Agency": [
+          "CHILD EXPLOITATION ONLINE PROTECTION",
+          "NATIONAL CYBER CRIME UNIT",
+          "MODERN SLAVERY AND HUMAN TRAFFICKING",
+          "ORGANISED IMMIGRATION CRIME",
+          "NATIONAL ASSESSMENT CENTRE",
+          "NATIONAL DATA EXPLOITATION CAPABILITY",
+          "SERIOUS CRIME ANALYSIS SECTION",
+          "UK INTERNATIONAL CRIME BUREAU",
+          "UK LIAISON BUREAU",
+          "UK PROTECTED PERSONS SERVICE",
+          "THREAT MANAGEMENT TEAM"
+        ],
+        "South London Superstars & Their Borough of Birth": [
+          "DAVID BOWIE AND LAMBETH",
+          "HERBERT GEORGE WELLS AND BROMLEY",
+          "GARY OLDMAN AND LEWISHAM",
+          "DOMINIC COOPER AND GREENWICH",
+          "DERREN BROWN AND CROYDON",
+          "TIM VINE AND SUTTON",
+          "QUENTIN BLAKE AND BEXLEY"
+        ],
+        "Book Club Books": [
+          "THE THREE BODY PROBLEM",
+          "TRANSLATION STATE",
+          "BIRNAM WOOD",
+          "THE THIRD POLICEMAN",
+          "I WHO HAVE NEVER KNOWN MEN"
+        ],
+        "Brands and their slogans": [
+          "NIKE JUST DO IT",
+          "APPLE THINK DIFFERENT",
+          "KENTUCKY FRIED CHICKEN FINGER LICKIN GOOD",
+          "MCDONALDS I'M LOVIN IT"
+        ],
+        "Famous characters and their creators": [
+          "SPIDERMAN AND STAN LEE",
+          "HARRY POTTER AND JK ROWLING",
+          "ARTHUR DENT AND DOUGLAS ADAMS",
+          "ELIZABETH BENNET AND JANE AUSTEN",
+          "EDWARD CULLEN AND STEPHENIE MEYER"
+        ],
+        "Vine (RIP)": [
+          "OH MY GOD HE ON XGAMES MODE",
+          "STOP I COULD HAVE DROPPED MY CROISSANT",
+          "LOOK AT ALL THOSE CHICKENS",
+          "DO IT FOR THE VINE",
+          "HURRICANE KATRINA MORE LIKE HURRICANE TORTILLA"
+        ],
+        "Things that can be drawn": [
+          "pair of curtains",
+          "the short straw",
+          "football match",
+          "comparison"
+        ],
+        "The careers of Barbie": [
+          "fashion editor",
+          "palaeontologist",
+          "concert pianist",
+          "aerobics instructor",
+          "sign language teacher"
+        ],
+        "Political quotes": [
+          "education education education",
+          "a week is a long time in politics",
+          "lies, damned lies and statistics",
+          "the lady's not for turning",
+          "a sheep in sheep's clothing"
+        ]
+      };
+      
+      let currentCategory = "";
+      let questions = [];
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let startTime, timerInterval;
+      let skippedQuestions = [];
+      
+      const sortDirections = { category: 'asc', score: 'asc', time: 'asc', date: 'asc' };
+      let currentSortColumn = null;
+      
+      /* --- Function to Generate Puzzle Text --- */
+      function generatePuzzle(answer) {
+        const vowels = /[AEIOU\s]/gi;
+        const consonants = answer.toUpperCase().replace(vowels, '');
+        let groups = [];
+        let i = 0;
+        while (i < consonants.length) {
+          let remaining = consonants.length - i;
+          let maxGroup = Math.min(3, remaining);
+          let groupSize = Math.floor(Math.random() * maxGroup) + 1;
+          groups.push(consonants.substr(i, groupSize));
+          i += groupSize;
         }
-      });
-    }
-    function sortLeaderboard(sortBy, sortDir) {
-      const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
-      leaderboard.sort((a, b) => {
-        let valA = a[sortBy], valB = b[sortBy];
-        if (sortBy === 'date') {
-          valA = new Date(valA);
-          valB = new Date(valB);
-        }
-        if (valA < valB) return sortDir === 'asc' ? -1 : 1;
-        if (valA > valB) return sortDir === 'asc' ? 1 : -1;
-        return 0;
-      });
-      renderLeaderboard(leaderboard);
-      updateSortIndicators();
-    }
-    function setupLeaderboardSorting() {
-      const sortButtons = document.querySelectorAll('#leaderboard-sort button');
-      sortButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const sortBy = button.getAttribute('data-sort');
-          sortDirections[sortBy] = sortDirections[sortBy] === 'asc' ? 'desc' : 'asc';
-          currentSortColumn = sortBy;
-          sortLeaderboard(sortBy, sortDirections[sortBy]);
+        return groups.join(' ');
+      }
+      
+      /* --- DOM Elements --- */
+      const welcomePage = document.getElementById('welcome-page');
+      const quizPage = document.getElementById('quiz-page');
+      const resultsPage = document.getElementById('results-page');
+      const leaderboardPage = document.getElementById('leaderboard-page');
+      const connectionsPage = document.getElementById('connections-page');
+      const sequencesPage = document.getElementById('sequences-page');
+      const connectingWallPage = document.getElementById('connecting-wall-page');
+      
+      const categorySelect = document.getElementById('category-select');
+      const startButton = document.getElementById('start-button');
+      const leaderboardButton = document.getElementById('leaderboard-button');
+      const connectionsButton = document.getElementById('connections-button');
+      const sequencesButton = document.getElementById('sequences-button');
+      const connectingWallButton = document.getElementById('connecting-wall-button');
+      
+      const quizCategoryElem = document.getElementById('quiz-category');
+      const timerElem = document.getElementById('timer');
+      const puzzleDisplay = document.getElementById('puzzle-display');
+      const answerInput = document.getElementById('answer-input');
+      const skipButton = document.getElementById('skip-button');
+      const feedbackElem = document.getElementById('feedback');
+      
+      const resultsCategoryElem = document.getElementById('results-category');
+      const resultsScoreElem = document.getElementById('results-score');
+      const resultsTimeElem = document.getElementById('results-time');
+      const restartButton = document.getElementById('restart-button');
+      const resultsHomeButton = document.getElementById('results-home-button');
+      const resultsLeaderboardButton = document.getElementById('results-leaderboard-button');
+      
+      const leaderboardCards = document.getElementById('leaderboard-cards');
+      const globalHomeButton = document.getElementById('global-home-button');
+      
+      // Additional Subpage Navigation Buttons
+      const missingVowelsBtnFromConnections = document.getElementById("missing-vowels-button-from-connections");
+      const sequencesBtnFromConnections = document.getElementById("sequences-button-from-connections");
+      const connectingWallBtnFromConnections = document.getElementById("connecting-wall-button-from-connections");
+      const missingVowelsBtnFromSequences = document.getElementById("missing-vowels-button-from-sequences");
+      const connectionsBtnFromSequences = document.getElementById("connections-button-from-sequences");
+      const connectingWallBtnFromSequences = document.getElementById("connecting-wall-button-from-sequences");
+      const missingVowelsBtnFromConnectingWall = document.getElementById("missing-vowels-button-from-connecting-wall");
+      const connectionsBtnFromConnectingWall = document.getElementById("connections-button-from-connecting-wall");
+      const sequencesBtnFromConnectingWall = document.getElementById("sequences-button-from-connecting-wall");
+      
+      /* --- Hieroglyph Click Functionality --- */
+      document.querySelectorAll('#connections-page .hieroglyph-rectangle').forEach(rect => {
+        rect.addEventListener('click', () => {
+          rect.classList.add('active');
+          setTimeout(() => {
+            const targetPageId = rect.getAttribute('data-target');
+            const targetPage = document.getElementById(targetPageId);
+            if (targetPage) {
+              showPage(targetPage);
+            } else {
+              showPage(connectionsPage);
+            }
+            rect.classList.remove('active');
+          }, 300);
         });
       });
-    }
-    function showLeaderboard() {
-      setupLeaderboardSorting();
-      const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
-      renderLeaderboard(leaderboard);
-      updateSortIndicators();
-      showPage(leaderboardPage);
-    }
-
-    /* Event Listeners for Primary Navigation */
-    startButton.addEventListener('click', () => {
-      currentCategory = categorySelect.value;
-      questions = quizData[currentCategory].slice();
-      currentQuestionIndex = 0;
-      score = 0;
-      skippedQuestions = [];
-      showPage(quizPage);
-      quizCategoryElem.textContent = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
-      startTimer();
-      displayQuestion();
+      
+      /* --- Navigation Functions --- */
+      function showPage(page) {
+        welcomePage.classList.add('hidden');
+        quizPage.classList.add('hidden');
+        resultsPage.classList.add('hidden');
+        leaderboardPage.classList.add('hidden');
+        connectionsPage.classList.add('hidden');
+        sequencesPage.classList.add('hidden');
+        connectingWallPage.classList.add('hidden');
+        document.querySelectorAll('.subpage').forEach(sp => sp.classList.add('hidden'));
+        page.classList.remove('hidden');
+        document.getElementById('menu-dropdown').classList.add('hidden');
+      }
+      function goHome() {
+        stopTimer();
+        showPage(welcomePage);
+        answerInput.value = "";
+      }
+      globalHomeButton.addEventListener('click', goHome);
+      resultsHomeButton.addEventListener('click', goHome);
+      missingVowelsBtnFromConnections?.addEventListener('click', goHome);
+      missingVowelsBtnFromSequences?.addEventListener('click', goHome);
+      missingVowelsBtnFromConnectingWall?.addEventListener('click', goHome);
+      
+      /* --- Subpage Navigation --- */
+      connectionsBtnFromSequences?.addEventListener('click', () => { showPage(connectionsPage); });
+      connectingWallBtnFromSequences?.addEventListener('click', () => { showPage(connectingWallPage); });
+      connectionsBtnFromConnectingWall?.addEventListener('click', () => { showPage(connectionsPage); });
+      sequencesBtnFromConnectingWall?.addEventListener('click', () => { showPage(sequencesPage); });
+      sequencesBtnFromConnections?.addEventListener('click', () => { showPage(sequencesPage); });
+      connectingWallBtnFromConnections?.addEventListener('click', () => { showPage(connectingWallPage); });
+      
+      /* --- Timer Functions --- */
+      function startTimer() {
+        startTime = Date.now();
+        timerInterval = setInterval(updateTimer, 1000);
+      }
+      function updateTimer() {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
+        const seconds = String(elapsed % 60).padStart(2, '0');
+        timerElem.textContent = `${minutes}:${seconds}`;
+      }
+      function stopTimer() {
+        clearInterval(timerInterval);
+        return Math.floor((Date.now() - startTime) / 1000);
+      }
+      
+      /* --- Progress Bar --- */
+      function updateProgress() {
+        const progressBar = document.getElementById('progress-bar');
+        const percentage = (currentQuestionIndex / questions.length) * 100;
+        progressBar.style.width = percentage + '%';
+      }
+      
+      /* --- Quiz Functions --- */
+      function displayQuestion() {
+        answerInput.value = "";
+        feedbackElem.textContent = "";
+        updateProgress();
+        if (currentQuestionIndex < questions.length) {
+          puzzleDisplay.style.opacity = 0;
+          setTimeout(() => {
+            const answer = questions[currentQuestionIndex];
+            puzzleDisplay.textContent = generatePuzzle(answer);
+            puzzleDisplay.style.opacity = 1;
+            answerInput.focus();
+          }, 200);
+        } else {
+          finishQuiz();
+        }
+      }
+      function checkAnswer() {
+        const userAnswer = answerInput.value.trim().toLowerCase();
+        const correctAnswer = questions[currentQuestionIndex].toLowerCase();
+        if (userAnswer === correctAnswer) {
+          feedbackElem.innerHTML = '<span class="correct-indicator">&#10003;</span>';
+          setTimeout(() => {
+            score++;
+            currentQuestionIndex++;
+            displayQuestion();
+          }, 200);
+        }
+      }
+      function skipQuestion() {
+        skippedQuestions.push(questions[currentQuestionIndex]);
+        currentQuestionIndex++;
+        displayQuestion();
+      }
+      function finishQuiz() {
+        const totalTime = stopTimer();
+        resultsCategoryElem.textContent = "Category: " + (currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1));
+        resultsScoreElem.textContent = "Correct Answers: " + score + " / " + questions.length;
+        const minutes = String(Math.floor(totalTime / 60)).padStart(2, '0');
+        const seconds = String(totalTime % 60).padStart(2, '0');
+        resultsTimeElem.textContent = "Time Taken: " + minutes + ":" + seconds;
+        saveResult({ category: currentCategory, score, time: totalTime, date: new Date().toISOString() });
+        showPage(resultsPage);
+      }
+      function saveResult(result) {
+        const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
+        leaderboard.push(result);
+        localStorage.setItem('missingVowelsLeaderboard', JSON.stringify(leaderboard));
+      }
+      
+      /* --- Leaderboard Functions --- */
+      function renderLeaderboard(leaderboard) {
+        leaderboardCards.innerHTML = "";
+        leaderboard.forEach(entry => {
+          const card = document.createElement('div');
+          card.classList.add('leaderboard-card');
+          const date = new Date(entry.date);
+          const minutes = String(Math.floor(entry.time / 60)).padStart(2, '0');
+          const seconds = String(entry.time % 60).padStart(2, '0');
+          card.innerHTML = `
+            <strong>Category:</strong> ${entry.category.charAt(0).toUpperCase() + entry.category.slice(1)}<br>
+            <strong>Score:</strong> ${entry.score} / ${quizData[entry.category].length || 'N/A'}<br>
+            <strong>Time:</strong> ${minutes}:${seconds}<br>
+            <strong>Date:</strong> ${date.toLocaleDateString()}
+          `;
+          leaderboardCards.appendChild(card);
+        });
+      }
+      function updateSortIndicators() {
+        const sortButtons = document.querySelectorAll('#leaderboard-sort button');
+        sortButtons.forEach(button => {
+          const sortBy = button.getAttribute('data-sort');
+          let baseText = button.innerText.split(" ")[0];
+          if (sortBy === currentSortColumn) {
+            const arrow = sortDirections[sortBy] === 'asc' ? '▲' : '▼';
+            button.innerText = baseText + " " + arrow;
+          } else {
+            button.innerText = baseText;
+          }
+        });
+      }
+      function sortLeaderboard(sortBy, sortDir) {
+        const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
+        leaderboard.sort((a, b) => {
+          let valA = a[sortBy], valB = b[sortBy];
+          if (sortBy === 'date') {
+            valA = new Date(valA);
+            valB = new Date(valB);
+          }
+          if (valA < valB) return sortDir === 'asc' ? -1 : 1;
+          if (valA > valB) return sortDir === 'asc' ? 1 : -1;
+          return 0;
+        });
+        renderLeaderboard(leaderboard);
+        updateSortIndicators();
+      }
+      function setupLeaderboardSorting() {
+        const sortButtons = document.querySelectorAll('#leaderboard-sort button');
+        sortButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const sortBy = button.getAttribute('data-sort');
+            sortDirections[sortBy] = sortDirections[sortBy] === 'asc' ? 'desc' : 'asc';
+            currentSortColumn = sortBy;
+            sortLeaderboard(sortBy, sortDirections[sortBy]);
+          });
+        });
+      }
+      function showLeaderboard() {
+        setupLeaderboardSorting();
+        const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
+        renderLeaderboard(leaderboard);
+        updateSortIndicators();
+        showPage(leaderboardPage);
+      }
+      
+      /* --- Menu Dropdown --- */
+      const menuButton = document.getElementById('menu-button');
+      const menuDropdown = document.getElementById('menu-dropdown');
+      menuButton.addEventListener('click', () => { menuDropdown.classList.toggle('hidden'); });
+      document.getElementById('menu-missing-vowels').addEventListener('click', () => { showPage(welcomePage); });
+      document.getElementById('menu-connections').addEventListener('click', () => { showPage(connectionsPage); });
+      document.getElementById('menu-sequences').addEventListener('click', () => { showPage(sequencesPage); });
+      document.getElementById('menu-connecting-wall').addEventListener('click', () => { showPage(connectingWallPage); });
+      
+      /* --- Primary Navigation --- */
+      startButton.addEventListener('click', () => {
+        currentCategory = categorySelect.value;
+        questions = quizData[currentCategory].slice();
+        currentQuestionIndex = 0;
+        score = 0;
+        skippedQuestions = [];
+        showPage(quizPage);
+        quizCategoryElem.textContent = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+        startTimer();
+        displayQuestion();
+      });
+      leaderboardButton.addEventListener('click', showLeaderboard);
+      connectionsButton.addEventListener('click', () => { showPage(connectionsPage); });
+      sequencesButton.addEventListener('click', () => { showPage(sequencesPage); });
+      connectingWallButton.addEventListener('click', () => { showPage(connectingWallPage); });
+      
+      /* --- Quiz Page Event Listeners --- */
+      skipButton.addEventListener('click', skipQuestion);
+      answerInput.addEventListener('input', checkAnswer);
+      
+      /* --- Results Page Event Listeners --- */
+      restartButton.addEventListener('click', () => {
+        currentQuestionIndex = 0;
+        score = 0;
+        skippedQuestions = [];
+        showPage(quizPage);
+        startTimer();
+        displayQuestion();
+      });
+      resultsLeaderboardButton.addEventListener('click', showLeaderboard);
     });
-    leaderboardButton.addEventListener('click', showLeaderboard);
-    skipButton.addEventListener('click', skipQuestion);
-    answerInput.addEventListener('input', checkAnswer);
-    restartButton.addEventListener('click', () => {
-      currentQuestionIndex = 0;
-      score = 0;
-      skippedQuestions = [];
-      showPage(quizPage);
-      startTimer();
-      displayQuestion();
-    });
-    resultsLeaderboardButton.addEventListener('click', showLeaderboard);
-
-    /* Event Listeners for Additional Page Buttons on Welcome Page */
-    connectionsButton.addEventListener('click', () => { showPage(connectionsPage); });
-    sequencesButton.addEventListener('click', () => { showPage(sequencesPage); });
-    connectingWallButton.addEventListener('click', () => { showPage(connectingWallPage); });
-
-    /* Menu Dropdown Event Listeners */
-    const menuButton = document.getElementById('menu-button');
-    const menuDropdown = document.getElementById('menu-dropdown');
-    menuButton.addEventListener('click', () => { menuDropdown.classList.toggle('hidden'); });
-    document.getElementById('menu-missing-vowels').addEventListener('click', () => { showPage(welcomePage); });
-    document.getElementById('menu-connections').addEventListener('click', () => { showPage(connectionsPage); });
-    document.getElementById('menu-sequences').addEventListener('click', () => { showPage(sequencesPage); });
-    document.getElementById('menu-connecting-wall').addEventListener('click', () => { showPage(connectingWallPage); });
   </script>
 </body>
 </html>

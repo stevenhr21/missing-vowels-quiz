@@ -1,4 +1,321 @@
-html {
-  height: 100%;
+/* style.css */
+
+/* Global Reset and Variables */
+* {
+  box-sizing: border-box;
+}
+:root {
+  --primary-color: #092f60;
+  --secondary-color: #d3dce5;
+  --hover-color: #071d4a;
+  --focus-shadow: 0 0 0 3px rgba(9, 47, 96, 0.5);
+  --font-family: 'Bahnschrift', sans-serif;
+  --transition-speed: 0.2s;
+  --transition-ease: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Global Typography & Background */
+body {
+  font-family: var(--font-family);
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #e0e7ef, #f7f9fc);
+  color: var(--primary-color);
+}
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+  letter-spacing: 1px;
+}
+h2 {
+  font-size: 2em;
+  margin: 0.5em 0;
+  letter-spacing: 0.5px;
+}
+
+/* Sticky Header with Left/Right Sections */
+.global-header {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 50px;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+}
+.global-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  transition: transform var(--transition-speed) var(--transition-ease),
+              background-color var(--transition-speed) var(--transition-ease),
+              box-shadow var(--transition-speed) var(--transition-ease);
+}
+.global-header button:active {
+  transform: scale(0.95);
+}
+.global-header button:hover {
+  background-color: var(--hover-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+.global-header button:focus {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+}
+.global-header svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--secondary-color);
+}
+
+/* Dropdown Menu in Header */
+#menu-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 15px;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  padding: 10px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 2000;
+}
+#menu-dropdown button {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color var(--transition-speed) var(--transition-ease);
+}
+#menu-dropdown button:hover {
+  background-color: var(--hover-color);
+}
+.hidden {
+  display: none;
+}
+
+/* Main Container with Enhanced Spacing and a Subtle Gradient */
+.container {
+  max-width: 600px;
+  margin: 80px auto 20px;
+  padding: 30px;
+  background: linear-gradient(135deg, #ffffff, #f7f9fc);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Form Elements */
+select, input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  font-size: 1em;
+  transition: border-color var(--transition-speed) var(--transition-ease);
+}
+select:focus, input[type="text"]:focus {
+  border-color: var(--hover-color);
+  outline: none;
+  box-shadow: var(--focus-shadow);
+}
+
+/* Buttons */
+button, .icon-button {
+  padding: 12px 20px;
+  margin: 8px;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1em;
+  transition: transform var(--transition-speed) var(--transition-ease),
+              background-color var(--transition-speed) var(--transition-ease),
+              box-shadow var(--transition-speed) var(--transition-ease);
+}
+button:hover, .icon-button:hover {
+  background-color: var(--hover-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+button:active, .icon-button:active {
+  transform: scale(0.97);
+}
+button:focus, .icon-button:focus {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+}
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--secondary-color);
+}
+
+/* Quiz Page Content */
+#quiz-content {
+  padding: 20px;
+}
+#quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+#timer {
+  font-size: 1em;
+}
+
+/* Progress Bar */
+#progress-container {
+  width: 100%;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 5px;
+  margin: 15px 0;
+  overflow: hidden;
+}
+#progress-bar {
+  height: 100%;
+  width: 0;
+  background-color: var(--primary-color);
+  transition: width var(--transition-speed) var(--transition-ease);
+}
+
+/* Puzzle Display */
+#puzzle-display {
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  padding: 20px;
+  font-size: 2em;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin: 20px 0;
+  transition: opacity var(--transition-speed) var(--transition-ease);
+  opacity: 1;
+}
+.correct-indicator {
+  color: green;
+  font-size: 1.5em;
+}
+
+/* Subpages */
+.subpage {
+  text-align: center;
+  padding: 20px;
+}
+.subpage h2 {
+  margin-top: 0;
+}
+
+/* Subpage Navigation (Sticky Footer for Subpages) */
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-color);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 1000;
+}
+.sticky-footer button {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  font-size: 1em;
+  cursor: pointer;
+  transition: transform var(--transition-speed) var(--transition-ease),
+              background-color var(--transition-speed) var(--transition-ease),
+              box-shadow var(--transition-speed) var(--transition-ease);
+}
+.sticky-footer button:hover {
+  background-color: var(--hover-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+.sticky-footer button:focus {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+}
+
+/* Leaderboard (Card Layout) */
+#leaderboard-page {
+  text-align: center;
+}
+#leaderboard-sort {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+#leaderboard-sort button {
+  padding: 8px 12px;
+  font-size: 0.9em;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  cursor: pointer;
+  transition: transform var(--transition-speed) var(--transition-ease),
+              background-color var(--transition-speed) var(--transition-ease),
+              box-shadow var(--transition-speed) var(--transition-ease);
+}
+#leaderboard-sort button:hover {
+  background-color: var(--hover-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+#leaderboard-sort button:focus {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+}
+#leaderboard-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 10px;
+}
+.leaderboard-card {
+  padding: 15px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform var(--transition-speed) var(--transition-ease),
+              opacity var(--transition-speed) var(--transition-ease);
+  text-align: left;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+  #puzzle-display {
+    font-size: 1.5em;
+  }
+  #leaderboard-sort button {
+    font-size: 0.8em;
+    padding: 5px 8px;
+  }
 }

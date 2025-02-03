@@ -20,7 +20,6 @@ body {
   font-weight: 500;
   margin: 0;
   padding: 0;
-  /* Background gradient from secondary to primary */
   background: linear-gradient(135deg, #d3dce5, #092f60);
   color: var(--primary-color);
 }
@@ -36,7 +35,7 @@ h2 {
   letter-spacing: 0.5px;
 }
 
-/* Sticky Global Header (Transparent) */
+/* Global Header (Transparent) */
 .global-header {
   position: fixed;
   top: 0;
@@ -173,8 +172,7 @@ select:focus, input[type="text"]:focus {
   box-shadow: var(--focus-shadow);
 }
 
-/* Buttons with Gradient and Shine */
-/* All buttons within .container get this gradient */
+/* Buttons with Gradient and Sheen */
 .container button,
 .container .icon-button {
   background: linear-gradient(135deg, #123a6f, #092f60);
@@ -202,7 +200,6 @@ button, .icon-button {
   padding: 12px 20px;
   margin: 8px;
   border: none;
-  /* Default fallback in case not in container */
   background-color: var(--primary-color);
   color: var(--secondary-color);
   cursor: pointer;
@@ -234,7 +231,7 @@ button:focus, .icon-button:focus {
   fill: var(--secondary-color);
 }
 
-/* Quiz Page Content – Use Gradient for Puzzle Display */
+/* Quiz Page Content */
 #quiz-content {
   padding: 20px;
 }
@@ -244,8 +241,27 @@ button:focus, .icon-button:focus {
   align-items: center;
   margin-bottom: 15px;
 }
-#timer { font-size: 1em; }
-/* Puzzle Display now uses the same gradient as the welcome header */
+#timer {
+  font-size: 1em;
+}
+
+/* Progress Bar */
+#progress-container {
+  width: 100%;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 5px;
+  margin: 15px 0;
+  overflow: hidden;
+}
+#progress-bar {
+  height: 100%;
+  width: 0;
+  background-color: var(--primary-color);
+  transition: width var(--transition-speed) var(--transition-ease);
+}
+
+/* Puzzle Display (Gradient Matching Welcome Header) */
 #puzzle-display {
   background: linear-gradient(135deg, #d3dce5, #c9ddf0);
   border-radius: 8px;
@@ -258,36 +274,13 @@ button:focus, .icon-button:focus {
   opacity: 1;
 }
 
-/* Sticky Footer – Transparent */
-.sticky-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: transparent;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  z-index: 1000;
+/* Subpages */
+.subpage {
+  text-align: center;
+  padding: 20px;
 }
-.sticky-footer button {
-  background: none;
-  border: none;
-  color: var(--secondary-color);
-  font-size: 1em;
-  cursor: pointer;
-  transition: transform var(--transition-speed) var(--transition-ease),
-              background-color var(--transition-speed) var(--transition-ease),
-              box-shadow var(--transition-speed) var(--transition-ease);
-}
-.sticky-footer button:hover {
-  background-color: var(--hover-color);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-.sticky-footer button:focus {
-  outline: none;
-  box-shadow: var(--focus-shadow);
+.subpage h2 {
+  margin-top: 0;
 }
 
 /* Leaderboard (Card Layout) */
@@ -337,7 +330,7 @@ button:focus, .icon-button:focus {
   text-align: left;
 }
 
-/* Hieroglyph Grid on Connections Page */
+/* Hieroglyph Grid on Connections Page (Slightly Smaller with Gradient) */
 .hieroglyph-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -345,7 +338,6 @@ button:focus, .icon-button:focus {
   margin-top: 20px;
 }
 .hieroglyph-rectangle {
-  /* Use the same gradient as the welcome header */
   background: linear-gradient(135deg, #d3dce5, #c9ddf0);
   border-radius: 8px;
   padding: 20px;

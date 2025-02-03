@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Missing Vowels Challenge</title>
   <style>
-    /* Ensure padding is included in the element's total width */
+    /* Global box-sizing */
     * {
       box-sizing: border-box;
     }
@@ -127,7 +127,7 @@
       font-size: 1em;
       color: var(--primary-color);
     }
-    /* New wrapper for quiz content so that the input box aligns with the question */
+    /* New wrapper for quiz content */
     #quiz-content {
       padding: 15px;
     }
@@ -244,6 +244,9 @@
         <option value="Brands and their slogans">Brands and their slogans</option>
         <option value="Famous characters and their creators">Famous characters and their creators</option>
         <option value="Vine (RIP)">Vine (RIP)</option>
+        <option value="Things that can be drawn">Things that can be drawn</option>
+        <option value="The careers of Barbie">The careers of Barbie</option>
+        <option value="Political quotes">Political quotes</option>
       </select>
       <div style="text-align: center;">
         <!-- Start button with play icon -->
@@ -274,7 +277,7 @@
         </div>
         <!-- Puzzle question (with quicker fade animation) -->
         <div id="puzzle-display"></div>
-        <!-- Input text box is within the same quiz-content -->
+        <!-- Input text box inside the same container -->
         <input type="text" id="answer-input" placeholder="Type your answer...">
       </div>
       <div style="text-align: center;">
@@ -310,7 +313,7 @@
   </div>
 
   <script>
-    // New quiz data with updated categories and questions
+    // Updated quiz data with new categories and questions
     const quizData = {
       "Jane Austen Novels": [
         "SENSE AND SENSIBILITY",
@@ -371,6 +374,26 @@
         "LOOK AT ALL THOSE CHICKENS",
         "DO IT FOR THE VINE",
         "HURRICANE KATRINA MORE LIKE HURRICANE TORTILLA"
+      ],
+      "Things that can be drawn": [
+        "pair of curtains",
+        "the short straw",
+        "football match",
+        "comparison"
+      ],
+      "The careers of Barbie": [
+        "fashion editor",
+        "palaeontologist",
+        "concert pianist",
+        "aerobics instructor",
+        "sign language teacher"
+      ],
+      "Political quotes": [
+        "education education education",
+        "a week is a long time in politics",
+        "lies, damned lies and statistics",
+        "the lady's not for turning",
+        "a sheep in sheep's clothing"
       ]
     };
 
@@ -470,7 +493,7 @@
       progressBar.style.width = percentage + '%';
     }
 
-    // Display question with a fade-out then fade-in effect on the puzzle text (quicker transition)
+    // Display question with a fade-out then fade-in effect on the puzzle text
     function displayQuestion() {
       answerInput.value = "";
       feedbackElem.textContent = "";

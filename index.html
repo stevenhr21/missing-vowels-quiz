@@ -120,10 +120,8 @@
     <div id="connections-page" class="subpage hidden">
       <h2>Connections</h2>
       <div class="hieroglyph-grid">
-        <!-- Two Reeds Button: Inline SVG from provided URL -->
         <div class="hieroglyph-rectangle" data-target="hieroglyph-two-reeds-page">
           <svg class="hieroglyph-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <!-- Replace with the exact SVG from https://www.svgrepo.com/show/322528/hieroglyph-y.svg if needed -->
             <path d="M12 0L15.09 8H24L17.455 12.91L20.545 21L12 16.09L3.455 21L6.545 12.91L0 8H8.91L12 0Z"/>
           </svg>
         </div>
@@ -161,64 +159,45 @@
       </div>
     </div>
     
-    <!-- Connecting Wall Page (Placeholder) -->
+    <!-- Connecting Wall Selection Page -->
     <div id="connecting-wall-page" class="subpage hidden">
       <h2>Connecting Wall</h2>
-      <p>Placeholder for Connecting Wall page</p>
-      <div class="subpage-nav">
-        <button id="missing-vowels-button-from-connecting-wall">Missing vowels</button>
-        <button id="connections-button-from-connecting-wall">Connections</button>
-        <button id="sequences-button-from-connecting-wall">Sequences</button>
+      <div class="wall-container">
+        <div class="wall-rectangle" id="lion-wall-button">Lion Wall</div>
+        <div class="wall-rectangle" id="water-wall-button">Water Wall</div>
       </div>
     </div>
     
-    <!-- Hieroglyph Placeholder Pages -->
-    <div id="hieroglyph-two-reeds-page" class="subpage hidden">
-      <h2>Two Reeds</h2>
-      <p>Placeholder for Two Reeds page</p>
+    <!-- Lion Wall Page (4x4 Grid Puzzle) -->
+    <div id="lion-wall-page" class="subpage hidden">
+      <h2>Lion Wall</h2>
+      <div id="lion-wall-grid" class="wall-grid">
+        <!-- Grid cells will be injected by JS -->
+      </div>
       <div>
-        <button onclick="showPage(connectionsPage)">Back to Connections</button>
+        <button onclick="showPage(document.getElementById('connecting-wall-page'))">Back to Connecting Wall</button>
       </div>
     </div>
-    <div id="hieroglyph-lion-page" class="subpage hidden">
-      <h2>Lion</h2>
-      <p>Placeholder for Lion page</p>
+    
+    <!-- Water Wall Page (Placeholder) -->
+    <div id="water-wall-page" class="subpage hidden">
+      <h2>Water Wall</h2>
+      <p>Placeholder for Water Wall puzzle</p>
       <div>
-        <button onclick="showPage(connectionsPage)">Back to Connections</button>
+        <button onclick="showPage(document.getElementById('connecting-wall-page'))">Back to Connecting Wall</button>
       </div>
     </div>
-    <div id="hieroglyph-twisted-flax-page" class="subpage hidden">
-      <h2>Twisted Flax</h2>
-      <p>Placeholder for Twisted Flax page</p>
-      <div>
-        <button onclick="showPage(connectionsPage)">Back to Connections</button>
-      </div>
-    </div>
-    <div id="hieroglyph-horned-viper-page" class="subpage hidden">
-      <h2>Horned Viper</h2>
-      <p>Placeholder for Horned Viper page</p>
-      <div>
-        <button onclick="showPage(connectionsPage)">Back to Connections</button>
-      </div>
-    </div>
-    <div id="hieroglyph-water-page" class="subpage hidden">
-      <h2>Water</h2>
-      <p>Placeholder for Water page</p>
-      <div>
-        <button onclick="showPage(connectionsPage)">Back to Connections</button>
-      </div>
-    </div>
-    <div id="hieroglyph-eye-of-horus-page" class="subpage hidden">
-      <h2>Eye of Horus</h2>
-      <p>Placeholder for Eye of Horus page</p>
-      <div>
-        <button onclick="showPage(connectionsPage)">Back to Connections</button>
-      </div>
-    </div>
+  
   </div>
   
   <script>
     document.addEventListener("DOMContentLoaded", function() {
+
+      /* --- Utility: Normalize input strings --- */
+      function normalize(str) {
+        return str.trim().toLowerCase().replace(/\s+/g, " ");
+      }
+      
       /* --- Quiz Data and Globals --- */
       const quizData = {
         "Jane Austen Novels": [
@@ -337,6 +316,8 @@
       const connectionsPage = document.getElementById('connections-page');
       const sequencesPage = document.getElementById('sequences-page');
       const connectingWallPage = document.getElementById('connecting-wall-page');
+      const lionWallPage = document.getElementById('lion-wall-page');
+      const waterWallPage = document.getElementById('water-wall-page');
       
       const categorySelect = document.getElementById('category-select');
       const startButton = document.getElementById('start-button');
@@ -362,16 +343,27 @@
       const leaderboardCards = document.getElementById('leaderboard-cards');
       const globalHomeButton = document.getElementById('global-home-button');
       
-      // Additional Subpage Navigation Buttons
-      const missingVowelsBtnFromConnections = document.getElementById("missing-vowels-button-from-connections");
-      const sequencesBtnFromConnections = document.getElementById("sequences-button-from-connections");
-      const connectingWallBtnFromConnections = document.getElementById("connecting-wall-button-from-connections");
-      const missingVowelsBtnFromSequences = document.getElementById("missing-vowels-button-from-sequences");
-      const connectionsBtnFromSequences = document.getElementById("connections-button-from-sequences");
-      const connectingWallBtnFromSequences = document.getElementById("connecting-wall-button-from-sequences");
-      const missingVowelsBtnFromConnectingWall = document.getElementById("missing-vowels-button-from-connecting-wall");
-      const connectionsBtnFromConnectingWall = document.getElementById("connections-button-from-connecting-wall");
-      const sequencesBtnFromConnectingWall = document.getElementById("sequences-button-from-connecting-wall");
+      // --- Connecting Wall Selection Button Functionality ---
+      const lionWallButton = document.getElementById('lion-wall-button');
+      const waterWallButton = document.getElementById('water-wall-button');
+      
+      lionWallButton.addEventListener('click', () => {
+        lionWallButton.classList.add('active');
+        setTimeout(() => {
+          lionWallButton.classList.remove('active');
+          showPage(lionWallPage);
+          renderLionWallGrid();
+        }, 300);
+      });
+      
+      waterWallButton.addEventListener('click', () => {
+        waterWallButton.classList.add('active');
+        setTimeout(() => {
+          waterWallButton.classList.remove('active');
+          showPage(waterWallPage);
+          // (Placeholder for Water Wall game)
+        }, 300);
+      });
       
       /* --- Hieroglyph Click Functionality --- */
       document.querySelectorAll('#connections-page .hieroglyph-rectangle').forEach(rect => {
@@ -399,6 +391,8 @@
         connectionsPage.classList.add('hidden');
         sequencesPage.classList.add('hidden');
         connectingWallPage.classList.add('hidden');
+        lionWallPage.classList.add('hidden');
+        waterWallPage.classList.add('hidden');
         document.querySelectorAll('.subpage').forEach(sp => sp.classList.add('hidden'));
         page.classList.remove('hidden');
         document.getElementById('menu-dropdown').classList.add('hidden');
@@ -410,19 +404,34 @@
       }
       globalHomeButton.addEventListener('click', goHome);
       resultsHomeButton.addEventListener('click', goHome);
-      missingVowelsBtnFromConnections?.addEventListener('click', goHome);
-      missingVowelsBtnFromSequences?.addEventListener('click', goHome);
-      missingVowelsBtnFromConnectingWall?.addEventListener('click', goHome);
       
-      /* --- Subpage Navigation --- */
-      connectionsBtnFromSequences?.addEventListener('click', () => { showPage(connectionsPage); });
-      connectingWallBtnFromSequences?.addEventListener('click', () => { showPage(connectingWallPage); });
-      connectionsBtnFromConnectingWall?.addEventListener('click', () => { showPage(connectionsPage); });
-      sequencesBtnFromConnectingWall?.addEventListener('click', () => { showPage(sequencesPage); });
-      sequencesBtnFromConnections?.addEventListener('click', () => { showPage(sequencesPage); });
-      connectingWallBtnFromConnections?.addEventListener('click', () => { showPage(connectingWallPage); });
+      /* --- Menu Dropdown --- */
+      const menuButton = document.getElementById('menu-button');
+      const menuDropdown = document.getElementById('menu-dropdown');
+      menuButton.addEventListener('click', () => { menuDropdown.classList.toggle('hidden'); });
+      document.getElementById('menu-missing-vowels').addEventListener('click', () => { showPage(welcomePage); });
+      document.getElementById('menu-connections').addEventListener('click', () => { showPage(connectionsPage); });
+      document.getElementById('menu-sequences').addEventListener('click', () => { showPage(sequencesPage); });
+      document.getElementById('menu-connecting-wall').addEventListener('click', () => { showPage(connectingWallPage); });
       
-      /* --- Timer Functions --- */
+      /* --- Primary Navigation --- */
+      startButton.addEventListener('click', () => {
+        currentCategory = categorySelect.value;
+        questions = quizData[currentCategory].slice();
+        currentQuestionIndex = 0;
+        score = 0;
+        skippedQuestions = [];
+        showPage(quizPage);
+        quizCategoryElem.textContent = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+        startTimer();
+        displayQuestion();
+      });
+      leaderboardButton.addEventListener('click', showLeaderboard);
+      connectionsButton.addEventListener('click', () => { showPage(connectionsPage); });
+      sequencesButton.addEventListener('click', () => { showPage(sequencesPage); });
+      connectingWallButton.addEventListener('click', () => { showPage(connectingWallPage); });
+      
+      /* --- Timer, Quiz, and Other Functions --- */
       function startTimer() {
         startTime = Date.now();
         timerInterval = setInterval(updateTimer, 1000);
@@ -437,15 +446,11 @@
         clearInterval(timerInterval);
         return Math.floor((Date.now() - startTime) / 1000);
       }
-      
-      /* --- Progress Bar --- */
       function updateProgress() {
         const progressBar = document.getElementById('progress-bar');
         const percentage = (currentQuestionIndex / questions.length) * 100;
         progressBar.style.width = percentage + '%';
       }
-      
-      /* --- Quiz Functions --- */
       function displayQuestion() {
         answerInput.value = "";
         feedbackElem.textContent = "";
@@ -463,9 +468,9 @@
         }
       }
       function checkAnswer() {
-        const userAnswer = answerInput.value.trim().toLowerCase();
-        const correctAnswer = questions[currentQuestionIndex].toLowerCase();
-        if (userAnswer === correctAnswer) {
+        const userAnswer = normalize(answerInput.value);
+        const correctAnswer = normalize(questions[currentQuestionIndex]);
+        if (userAnswer === correctAnswer && userAnswer.length > 0) {
           feedbackElem.innerHTML = '<span class="correct-indicator">&#10003;</span>';
           setTimeout(() => {
             score++;
@@ -494,8 +499,6 @@
         leaderboard.push(result);
         localStorage.setItem('missingVowelsLeaderboard', JSON.stringify(leaderboard));
       }
-      
-      /* --- Leaderboard Functions --- */
       function renderLeaderboard(leaderboard) {
         leaderboardCards.innerHTML = "";
         leaderboard.forEach(entry => {
@@ -560,46 +563,88 @@
         showPage(leaderboardPage);
       }
       
-      /* --- Menu Dropdown --- */
-      const menuButton = document.getElementById('menu-button');
-      const menuDropdown = document.getElementById('menu-dropdown');
-      menuButton.addEventListener('click', () => { menuDropdown.classList.toggle('hidden'); });
-      document.getElementById('menu-missing-vowels').addEventListener('click', () => { showPage(welcomePage); });
-      document.getElementById('menu-connections').addEventListener('click', () => { showPage(connectionsPage); });
-      document.getElementById('menu-sequences').addEventListener('click', () => { showPage(sequencesPage); });
-      document.getElementById('menu-connecting-wall').addEventListener('click', () => { showPage(connectingWallPage); });
+      /* --- Lion Wall Grid Logic --- */
+      const lionGroups = {
+        "Old Saying": ["Adage", "Chestnut", "Maxim", "Saw"],
+        "Grill Fuel Sources": ["Charcoal", "Electric", "Gas", "Wood"],
+        "Hot Tub Components": ["Filter", "Heater", "Jet", "Pump"],
+        "Trees": ["Ash", "Cherry", "Ebony", "Gum"]
+      };
+      let lionWords = [];
+      let lionSelections = [];
       
-      /* --- Primary Navigation --- */
-      startButton.addEventListener('click', () => {
-        currentCategory = categorySelect.value;
-        questions = quizData[currentCategory].slice();
-        currentQuestionIndex = 0;
-        score = 0;
-        skippedQuestions = [];
-        showPage(quizPage);
-        quizCategoryElem.textContent = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
-        startTimer();
-        displayQuestion();
-      });
-      leaderboardButton.addEventListener('click', showLeaderboard);
-      connectionsButton.addEventListener('click', () => { showPage(connectionsPage); });
-      sequencesButton.addEventListener('click', () => { showPage(sequencesPage); });
-      connectingWallButton.addEventListener('click', () => { showPage(connectingWallPage); });
+      function renderLionWallGrid() {
+        const grid = document.getElementById('lion-wall-grid');
+        grid.innerHTML = "";
+        lionSelections = []; // Clear previous selections
+        // Combine all words from groups (total 16 words)
+        lionWords = [];
+        for (let category in lionGroups) {
+          lionWords = lionWords.concat(lionGroups[category]);
+        }
+        // Shuffle lionWords array
+        lionWords.sort(() => 0.5 - Math.random());
+        lionWords.forEach(word => {
+          const cell = document.createElement('div');
+          cell.classList.add('wall-cell');
+          cell.textContent = word;
+          cell.addEventListener('click', () => {
+            // Animate color swap on selection by toggling 'selected'
+            if (cell.classList.contains('selected')) {
+              cell.classList.remove('selected');
+              lionSelections = lionSelections.filter(w => w !== word);
+            } else {
+              cell.classList.add('selected');
+              lionSelections.push(word);
+            }
+            if (lionSelections.length === 4) {
+              checkLionGroup();
+            }
+          });
+          grid.appendChild(cell);
+        });
+      }
       
-      /* --- Quiz Page Event Listeners --- */
-      skipButton.addEventListener('click', skipQuestion);
-      answerInput.addEventListener('input', checkAnswer);
+      function checkLionGroup() {
+        let matchFound = false;
+        for (let category in lionGroups) {
+          const groupWords = lionGroups[category];
+          const sortedSelected = lionSelections.slice().sort();
+          const sortedGroup = groupWords.slice().sort();
+          if (JSON.stringify(sortedSelected) === JSON.stringify(sortedGroup)) {
+            matchFound = true;
+            // Animate correct selection: add 'solved' class to selected cells
+            const selectedCells = document.querySelectorAll('.wall-cell.selected');
+            selectedCells.forEach(cell => cell.classList.add('solved'));
+            setTimeout(() => {
+              // Remove solved cells and insert a group header at the top
+              selectedCells.forEach(cell => cell.remove());
+              const grid = document.getElementById('lion-wall-grid');
+              const groupCell = document.createElement('div');
+              groupCell.classList.add('group-cell');
+              groupCell.innerHTML = `<strong>${category}</strong><br>${groupWords.join(", ")}`;
+              // Insert the new group header at the top (it will push down remaining cells)
+              grid.insertBefore(groupCell, grid.firstChild);
+              lionSelections = [];
+            }, 500);
+            break;
+          }
+        }
+        if (!matchFound) {
+          // Animate shake for incorrect selection
+          const selectedCells = document.querySelectorAll('.wall-cell.selected');
+          selectedCells.forEach(cell => cell.classList.add('shake'));
+          setTimeout(() => {
+            selectedCells.forEach(cell => {
+              cell.classList.remove('shake');
+              cell.classList.remove('selected');
+            });
+            lionSelections = [];
+          }, 500);
+        }
+      }
       
-      /* --- Results Page Event Listeners --- */
-      restartButton.addEventListener('click', () => {
-        currentQuestionIndex = 0;
-        score = 0;
-        skippedQuestions = [];
-        showPage(quizPage);
-        startTimer();
-        displayQuestion();
-      });
-      resultsLeaderboardButton.addEventListener('click', showLeaderboard);
+      /* --- End of DOMContentLoaded --- */
     });
   </script>
 </body>

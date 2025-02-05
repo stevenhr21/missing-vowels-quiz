@@ -178,7 +178,7 @@ select:focus, input[type="text"]:focus {
   box-shadow: var(--focus-shadow);
 }
 
-/* Buttons with Gradient and Sheen */
+/* Buttons with Gradient and Sheen (inside .container) */
 .container button,
 .container .icon-button {
   background: linear-gradient(135deg, #123a6f, #092f60);
@@ -211,9 +211,7 @@ button, .icon-button {
   cursor: pointer;
   border-radius: 10px;
   font-size: 1em;
-  transition: transform var(--transition-speed) var(--transition-ease),
-              background-color var(--transition-speed) var(--transition-ease),
-              box-shadow var(--transition-speed) var(--transition-ease);
+  transition: transform 0.3s, background-color 0.3s, color 0.3s;
 }
 button:hover, .icon-button:hover {
   background-color: var(--hover-color);
@@ -264,7 +262,7 @@ button:focus, .icon-button:focus {
   height: 100%;
   width: 0;
   background-color: var(--primary-color);
-  transition: width var(--transition-speed) var(--transition-ease);
+  transition: width 0.3s;
 }
 
 /* Puzzle Display (Gradient Matching Welcome Header) */
@@ -276,7 +274,7 @@ button:focus, .icon-button:focus {
   text-align: center;
   letter-spacing: 0.5px;
   margin: 20px 0;
-  transition: opacity var(--transition-speed) var(--transition-ease);
+  transition: opacity 0.3s;
   opacity: 1;
 }
 
@@ -307,9 +305,7 @@ button:focus, .icon-button:focus {
   background-color: var(--primary-color);
   color: var(--secondary-color);
   cursor: pointer;
-  transition: transform var(--transition-speed) var(--transition-ease),
-              background-color var(--transition-speed) var(--transition-ease),
-              box-shadow var(--transition-speed) var(--transition-ease);
+  transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
 }
 #leaderboard-sort button:hover {
   background-color: var(--hover-color);
@@ -331,8 +327,7 @@ button:focus, .icon-button:focus {
   border: 1px solid var(--primary-color);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: transform var(--transition-speed) var(--transition-ease),
-              opacity var(--transition-speed) var(--transition-ease);
+  transition: transform 0.3s, opacity 0.3s;
   text-align: left;
 }
 
@@ -351,19 +346,94 @@ button:focus, .icon-button:focus {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s var(--transition-ease), color 0.3s var(--transition-ease);
+  transition: background-color 0.3s, color 0.3s;
   min-height: 120px;
 }
 .hieroglyph-icon {
   font-size: 3em;
   color: var(--primary-color);
-  transition: color 0.3s var(--transition-ease);
+  transition: color 0.3s;
 }
 .hieroglyph-rectangle.active {
   background: var(--primary-color);
 }
 .hieroglyph-rectangle.active .hieroglyph-icon {
   color: var(--secondary-color);
+}
+
+/* Connecting Wall Page – Wall Buttons */
+.wall-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.wall-rectangle {
+  background: linear-gradient(135deg, #d3dce5, #c1d2e3);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  text-align: center;
+  font-size: 1.5em;
+  color: #092f60;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  margin: 10px;
+}
+.wall-rectangle:hover {
+  transform: scale(1.02);
+}
+.wall-rectangle:active,
+.wall-rectangle.active {
+  background: #092f60;
+  color: #d3dce5;
+}
+
+/* Lion Wall Grid (4x4 Grid) */
+.wall-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+.wall-cell {
+  background: linear-gradient(135deg, #d3dce5, #c1d2e3);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1em;
+  color: #092f60;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+.wall-cell.selected {
+  background: #092f60;
+  color: #d3dce5;
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+.wall-cell.shake {
+  animation: shake 0.5s;
+}
+
+/* Group Header Cell for Solved Group */
+.group-cell {
+  background: #092f60;
+  color: #d3dce5;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2em;
+  grid-column: span 4;
+  transition: all 0.5s ease;
 }
 
 /* Responsive Adjustments */

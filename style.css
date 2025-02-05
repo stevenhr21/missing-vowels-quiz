@@ -1,4 +1,19 @@
-/* style.css */
+/* Ensure full-page background */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #d3dce5, #092f60);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Bahnschrift', sans-serif;
+  font-weight: 500;
+  color: var(--primary-color);
+}
 
 /* Global Reset and Variables */
 * {
@@ -9,20 +24,11 @@
   --secondary-color: #d3dce5;
   --hover-color: #071f50;
   --focus-shadow: 0 0 0 3px rgba(9, 47, 96, 0.5);
-  --font-family: 'Bahnschrift', sans-serif;
   --transition-speed: 0.2s;
   --transition-ease: cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Global Typography & Background */
-body {
-  font-family: var(--font-family);
-  font-weight: 500;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #d3dce5, #092f60);
-  color: var(--primary-color);
-}
+/* Headings */
 h1 {
   font-size: 2.5em;
   margin-bottom: 0.5em;
@@ -50,8 +56,7 @@ h2 {
   box-shadow: none;
   z-index: 1000;
 }
-.header-left,
-.header-right {
+.header-left, .header-right {
   display: flex;
   align-items: center;
 }
@@ -111,7 +116,7 @@ h2 {
   display: none;
 }
 
-/* Main Container (Transparent) */
+/* Main Container (Transparent & Full Height) */
 .container {
   max-width: 600px;
   margin: 80px auto 20px;
@@ -119,6 +124,7 @@ h2 {
   background: transparent;
   border-radius: 8px;
   box-shadow: none;
+  min-height: 100vh;
 }
 
 /* Welcome Page – Header Rectangle */

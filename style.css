@@ -83,7 +83,7 @@ h2 {
 .global-header svg {
   width: 24px;
   height: 24px;
-  fill: var(--secondary-color);
+  fill: var(--primary-color);
 }
 
 /* Dropdown Menu */

@@ -219,7 +219,7 @@
         "Inquisitive film titles": [
           "WHAT'S EATING GILBERT GRAPE",
           "DUDE, WHERE'S MY CAR?",
-          "O BROTHER, WHERE ART THOU? ",
+          "O BROTHER, WHERE ART THOU?",
           "WHAT EVER HAPPENED TO BABY JANE?"
         ],
         "Long form names of countries": [
@@ -245,7 +245,7 @@
           "THE SUNDANCE KID",
           "BONNIE PARKER",
           "JESSE JAMES",
-          "JOHN DILLINGER",
+          "JOHN DILLINGER"
         ]
       };
       
@@ -419,9 +419,11 @@
         const percentage = (currentQuestionIndex / questions.length) * 100;
         progressBar.style.width = percentage + '%';
       }
-      // Use 'keyup' so that as soon as the correct answer is fully typed it advances.
+      
+      // Prevent multiple triggers by locking answer checking
+      let answerLocked = false;
+      // Use keyup so that as soon as the correct answer is fully typed it advances.
       answerInput.addEventListener('keyup', checkAnswer);
-      // Also attach click listener to the skip button
       skipButton.addEventListener('click', skipQuestion);
       
       function displayQuestion() {
@@ -441,13 +443,16 @@
         }
       }
       function checkAnswer() {
+        if (answerLocked) return;
         const userAnswer = normalize(answerInput.value);
         const correctAnswer = normalize(questions[currentQuestionIndex]);
         if (userAnswer === correctAnswer && userAnswer.length > 0) {
+          answerLocked = true;
           feedbackElem.innerHTML = '<span class="correct-indicator">&#10003;</span>';
           setTimeout(() => {
             score++;
             currentQuestionIndex++;
+            answerLocked = false;
             displayQuestion();
           }, 200);
         }
@@ -472,34 +477,22 @@
         leaderboard.push(result);
         localStorage.setItem('missingVowelsLeaderboard', JSON.stringify(leaderboard));
       }
-      function renderLeaderboard(leaderboard) {
-        leaderboardCards.innerHTML = "";
-        leaderboard.forEach(entry => {
-          const card = document.createElement('div');
-          card.classList.add('leaderboard-card');
-          const date = new Date(entry.date);
-          const minutes = String(Math.floor(entry.time / 60)).padStart(2, '0');
-          const seconds = String(entry.time % 60).padStart(2, '0');
-          card.innerHTML = `
-            <strong>Category:</strong> ${entry.category.charAt(0).toUpperCase() + entry.category.slice(1)}<br>
-            <strong>Score:</strong> ${entry.score} / ${quizData[entry.category].length || 'N/A'}<br>
-            <strong>Time:</strong> ${minutes}:${seconds}<br>
-            <strong>Date:</strong> ${date.toLocaleDateString()}
-          `;
-          leaderboardCards.appendChild(card);
-        });
+      function showLeaderboard() {
+        setupLeaderboardSorting();
+        const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
+        renderLeaderboard(leaderboard);
+        updateSortIndicators();
+        showPage(leaderboardPage);
       }
-      function updateSortIndicators() {
+      function setupLeaderboardSorting() {
         const sortButtons = document.querySelectorAll('#leaderboard-sort button');
         sortButtons.forEach(button => {
-          const sortBy = button.getAttribute('data-sort');
-          let baseText = button.innerText.split(" ")[0];
-          if (sortBy === currentSortColumn) {
-            const arrow = sortDirections[sortBy] === 'asc' ? '▲' : '▼';
-            button.innerText = baseText + " " + arrow;
-          } else {
-            button.innerText = baseText;
-          }
+          button.addEventListener('click', () => {
+            const sortBy = button.getAttribute('data-sort');
+            sortDirections[sortBy] = sortDirections[sortBy] === 'asc' ? 'desc' : 'asc';
+            currentSortColumn = sortBy;
+            sortLeaderboard(sortBy, sortDirections[sortBy]);
+          });
         });
       }
       function sortLeaderboard(sortBy, sortDir) {
@@ -517,23 +510,26 @@
         renderLeaderboard(leaderboard);
         updateSortIndicators();
       }
-      function setupLeaderboardSorting() {
-        const sortButtons = document.querySelectorAll('#leaderboard-sort button');
-        sortButtons.forEach(button => {
-          button.addEventListener('click', () => {
-            const sortBy = button.getAttribute('data-sort');
-            sortDirections[sortBy] = sortDirections[sortBy] === 'asc' ? 'desc' : 'asc';
-            currentSortColumn = sortBy;
-            sortLeaderboard(sortBy, sortDirections[sortBy]);
-          });
+      function renderLeaderboard(leaderboard) {
+        leaderboardCards.innerHTML = "";
+        if (leaderboard.length === 0) {
+          leaderboardCards.innerHTML = "<p>No leaderboard data available.</p>";
+          return;
+        }
+        leaderboard.forEach(entry => {
+          const card = document.createElement('div');
+          card.classList.add('leaderboard-card');
+          const date = new Date(entry.date);
+          const minutes = String(Math.floor(entry.time / 60)).padStart(2, '0');
+          const seconds = String(entry.time % 60).padStart(2, '0');
+          card.innerHTML = `
+            <strong>Category:</strong> ${entry.category.charAt(0).toUpperCase() + entry.category.slice(1)}<br>
+            <strong>Score:</strong> ${entry.score} / ${quizData[entry.category].length || 'N/A'}<br>
+            <strong>Time:</strong> ${minutes}:${seconds}<br>
+            <strong>Date:</strong> ${date.toLocaleDateString()}
+          `;
+          leaderboardCards.appendChild(card);
         });
-      }
-      function showLeaderboard() {
-        setupLeaderboardSorting();
-        const leaderboard = JSON.parse(localStorage.getItem('missingVowelsLeaderboard')) || [];
-        renderLeaderboard(leaderboard);
-        updateSortIndicators();
-        showPage(leaderboardPage);
       }
       
       // Add event listeners for the Results page buttons:
@@ -556,25 +552,23 @@
       };
       let lionWords = [];
       let lionSelections = [];
-      let lionSolvedCount = 0;  // To count solved groups
+      let lionSolvedCount = 0;
       
       function renderLionWallGrid() {
         const grid = document.getElementById('lion-wall-grid');
         grid.innerHTML = "";
-        lionSelections = []; // Clear previous selections
+        lionSelections = [];
         // Combine all words (16 total)
         lionWords = [];
         for (let category in lionGroups) {
           lionWords = lionWords.concat(lionGroups[category]);
         }
-        // Shuffle the array
         lionWords.sort(() => 0.5 - Math.random());
         lionWords.forEach(word => {
           const cell = document.createElement('div');
           cell.classList.add('wall-cell');
           cell.textContent = word;
           cell.addEventListener('click', () => {
-            // Swap colors via toggling "selected" (CSS handles the swap)
             if (cell.classList.contains('selected')) {
               cell.classList.remove('selected');
               lionSelections = lionSelections.filter(w => w !== word);
@@ -598,17 +592,13 @@
           const sortedGroup = groupWords.slice().sort();
           if (JSON.stringify(sortedSelected) === JSON.stringify(sortedGroup)) {
             matchFound = true;
-            // Add merge animation to selected cells
             const selectedCells = document.querySelectorAll('.wall-cell.selected');
             selectedCells.forEach(cell => cell.classList.add('merge'));
             setTimeout(() => {
               lionSolvedCount++;
-              // Determine header color based on solved order
               const groupColors = ["#fbd534", "#bc70c3", "#739eeb", "#b6e352"];
               const grid = document.getElementById('lion-wall-grid');
-              // Remove the selected cells
               selectedCells.forEach(cell => cell.remove());
-              // Create a group header cell spanning the grid
               const groupCell = document.createElement('div');
               groupCell.classList.add('group-cell');
               groupCell.style.backgroundColor = groupColors[lionSolvedCount - 1] || "#092f60";
@@ -620,7 +610,6 @@
           }
         }
         if (!matchFound) {
-          // Shake animation for wrong selection
           const selectedCells = document.querySelectorAll('.wall-cell.selected');
           selectedCells.forEach(cell => cell.classList.add('shake'));
           setTimeout(() => {

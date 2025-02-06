@@ -41,16 +41,14 @@
         <h1>MISSING VOWELS</h1>
       </div>
       <select id="category-select">
-        <option value="Jane Austen Novels">Jane Austen Novels</option>
-        <option value="National Crime Agency">National Crime Agency</option>
-        <option value="South London Superstars & Their Borough of Birth">South London Superstars &amp; Their Borough of Birth</option>
-        <option value="Book Club Books">Book Club Books</option>
-        <option value="Brands and their slogans">Brands and their slogans</option>
-        <option value="Famous characters and their creators">Famous characters and their creators</option>
-        <option value="Vine (RIP)">Vine (RIP)</option>
-        <option value="Things that can be drawn">Things that can be drawn</option>
-        <option value="The careers of Barbie">The careers of Barbie</option>
-        <option value="Political quotes">Political quotes</option>
+        <option value="Same but different">Same but different</option>
+        <option value="Friends in children's literature">Friends in children's literature</option>
+        <option value="Walkers Specials Editions">Walkers Specials Editions</option>
+        <option value="Inquisitive film titles">Inquisitive film titles</option>
+        <option value="Long form names of countries">Long form names of countries</option>
+        <option value="Events and their months">Events and their months</option>
+        <option value="Italian Landmarks">Italian Landmarks</option>
+        <option value="US Criminals and Outlaws">US Criminals and Outlaws</option>
       </select>
       <div style="text-align: center;">
         <button id="start-button" class="icon-button" title="Start">
@@ -172,7 +170,7 @@
     <div id="lion-wall-page" class="subpage hidden">
       <h2>Lion Wall</h2>
       <div id="lion-wall-grid" class="wall-grid">
-        <!-- Grid cells will be injected by JS -->
+        <!-- Grid cells injected by JS -->
       </div>
       <div>
         <button onclick="showPage(document.getElementById('connecting-wall-page'))">Back to Connecting Wall</button>
@@ -200,85 +198,54 @@
       
       /* --- Quiz Data and Globals --- */
       const quizData = {
-        "Jane Austen Novels": [
-          "SENSE AND SENSIBILITY",
-          "PRIDE AND PREJUDICE",
-          "MANSFIELD PARK",
-          "EMMA",
-          "NORTHANGER ABBEY",
-          "PERSUASION",
-          "SANDITON",
-          "LADY SUSAN",
-          "THE WATSONS"
+        "Same but different": [
+          "DOPPELGANGERS",
+          "IDENTICAL TWINS",
+          "MIRROR IMAGE",
+          "ALLOTROPES"
         ],
-        "National Crime Agency": [
-          "CHILD EXPLOITATION ONLINE PROTECTION",
-          "NATIONAL CYBER CRIME UNIT",
-          "MODERN SLAVERY AND HUMAN TRAFFICKING",
-          "ORGANISED IMMIGRATION CRIME",
-          "NATIONAL ASSESSMENT CENTRE",
-          "NATIONAL DATA EXPLOITATION CAPABILITY",
-          "SERIOUS CRIME ANALYSIS SECTION",
-          "UK INTERNATIONAL CRIME BUREAU",
-          "UK LIAISON BUREAU",
-          "UK PROTECTED PERSONS SERVICE",
-          "THREAT MANAGEMENT TEAM"
+        "Friends in children's literature": [
+          "POOH AND PIGLET",
+          "THE FAMOUS FIVE",
+          "RAT, MOLE, TOAD AND BADGER",
+          "LYRA BELACQUA AND IOREK BYRNISON"
         ],
-        "South London Superstars & Their Borough of Birth": [
-          "DAVID BOWIE AND LAMBETH",
-          "HERBERT GEORGE WELLS AND BROMLEY",
-          "GARY OLDMAN AND LEWISHAM",
-          "DOMINIC COOPER AND GREENWICH",
-          "DERREN BROWN AND CROYDON",
-          "TIM VINE AND SUTTON",
-          "QUENTIN BLAKE AND BEXLEY"
+        "Walkers Specials Editions": [
+          "BUILDER'S BREAKFAST",
+          "SALT AND LINEKER",
+          "STEPHEN FRY UP",
+          "JIMMY CON CARRNE"
         ],
-        "Book Club Books": [
-          "THE THREE BODY PROBLEM",
-          "TRANSLATION STATE",
-          "BIRNAM WOOD",
-          "THE THIRD POLICEMAN",
-          "I WHO HAVE NEVER KNOWN MEN"
+        "Inquisitive film titles": [
+          "WHAT'S EATING GILBERT GRAPE",
+          "DUDE, WHERE'S MY CAR?",
+          "O BROTHER, WHERE ART THOU? ",
+          "WHAT EVER HAPPENED TO BABY JANE?"
         ],
-        "Brands and their slogans": [
-          "NIKE JUST DO IT",
-          "APPLE THINK DIFFERENT",
-          "KENTUCKY FRIED CHICKEN FINGER LICKIN GOOD",
-          "MCDONALDS I'M LOVIN IT"
+        "Long form names of countries": [
+          "KINGDOM OF DENMARK",
+          "COMMONWEALTH OF AUSTRALIA",
+          "PLURINATIONAL STATE OF BOLIVIA",
+          "FEDERATION OF SAINT CHRISTOPHER AND NEVIS"
         ],
-        "Famous characters and their creators": [
-          "SPIDERMAN AND STAN LEE",
-          "HARRY POTTER AND JK ROWLING",
-          "ARTHUR DENT AND DOUGLAS ADAMS",
-          "ELIZABETH BENNET AND JANE AUSTEN",
-          "EDWARD CULLEN AND STEPHENIE MEYER"
+        "Events and their months": [
+          "HALLOWEEN AND OCTOBER",
+          "EASTER SUNDAY AND MARCH OR APRIL",
+          "GROUNDHOG DAY AND FEBRUARY",
+          "GROUNDHOG DAY AND FEBRUARY"
         ],
-        "Vine (RIP)": [
-          "OH MY GOD HE ON XGAMES MODE",
-          "STOP I COULD HAVE DROPPED MY CROISSANT",
-          "LOOK AT ALL THOSE CHICKENS",
-          "DO IT FOR THE VINE",
-          "HURRICANE KATRINA MORE LIKE HURRICANE TORTILLA"
+        "Italian Landmarks": [
+          "RIALTO BRIDGE",
+          "LAKE GARDA",
+          "DOGE'S PALACE",
+          "PIAZZALE MICHELANGELO",
+          "TREVI FOUNTAIN"
         ],
-        "Things that can be drawn": [
-          "pair of curtains",
-          "the short straw",
-          "football match",
-          "comparison"
-        ],
-        "The careers of Barbie": [
-          "fashion editor",
-          "palaeontologist",
-          "concert pianist",
-          "aerobics instructor",
-          "sign language teacher"
-        ],
-        "Political quotes": [
-          "education education education",
-          "a week is a long time in politics",
-          "lies, damned lies and statistics",
-          "the lady's not for turning",
-          "a sheep in sheep's clothing"
+        "US Criminals and Outlaws": [
+          "THE SUNDANCE KID",
+          "BONNIE PARKER",
+          "JESSE JAMES",
+          "JOHN DILLINGER",
         ]
       };
       
@@ -353,6 +320,7 @@
           lionWallButton.classList.remove('active');
           showPage(lionWallPage);
           renderLionWallGrid();
+          lionSolvedCount = 0; // Reset solved count for new game
         }, 300);
       });
       
@@ -361,7 +329,7 @@
         setTimeout(() => {
           waterWallButton.classList.remove('active');
           showPage(waterWallPage);
-          // (Placeholder for Water Wall game)
+          // Placeholder for Water Wall game
         }, 300);
       });
       
@@ -451,6 +419,11 @@
         const percentage = (currentQuestionIndex / questions.length) * 100;
         progressBar.style.width = percentage + '%';
       }
+      // Use 'keyup' so that as soon as the correct answer is fully typed it advances.
+      answerInput.addEventListener('keyup', checkAnswer);
+      // Also attach click listener to the skip button
+      skipButton.addEventListener('click', skipQuestion);
+      
       function displayQuestion() {
         answerInput.value = "";
         feedbackElem.textContent = "";
@@ -563,33 +536,45 @@
         showPage(leaderboardPage);
       }
       
+      // Add event listeners for the Results page buttons:
+      restartButton.addEventListener('click', () => {
+        currentQuestionIndex = 0;
+        score = 0;
+        skippedQuestions = [];
+        showPage(quizPage);
+        startTimer();
+        displayQuestion();
+      });
+      resultsLeaderboardButton.addEventListener('click', showLeaderboard);
+      
       /* --- Lion Wall Grid Logic --- */
       const lionGroups = {
-        "Old Saying": ["Adage", "Chestnut", "Maxim", "Saw"],
-        "Grill Fuel Sources": ["Charcoal", "Electric", "Gas", "Wood"],
-        "Hot Tub Components": ["Filter", "Heater", "Jet", "Pump"],
-        "Trees": ["Ash", "Cherry", "Ebony", "Gum"]
+        "Famous Jacks": ["Grealish", "Dee", "Dorsey", "Whitehall"],
+        "Fish": ["Carp", "Halibut", "Cod", "Bass"],
+        "___ Out": ["Stand", "Crash", "Cop", "Black"],
+        "Parts of a drum kit": ["Hi-hat", "Ride", "Snare", "Tom-Tom"]
       };
       let lionWords = [];
       let lionSelections = [];
+      let lionSolvedCount = 0;  // To count solved groups
       
       function renderLionWallGrid() {
         const grid = document.getElementById('lion-wall-grid');
         grid.innerHTML = "";
         lionSelections = []; // Clear previous selections
-        // Combine all words from groups (total 16 words)
+        // Combine all words (16 total)
         lionWords = [];
         for (let category in lionGroups) {
           lionWords = lionWords.concat(lionGroups[category]);
         }
-        // Shuffle lionWords array
+        // Shuffle the array
         lionWords.sort(() => 0.5 - Math.random());
         lionWords.forEach(word => {
           const cell = document.createElement('div');
           cell.classList.add('wall-cell');
           cell.textContent = word;
           cell.addEventListener('click', () => {
-            // Animate color swap on selection by toggling 'selected'
+            // Swap colors via toggling "selected" (CSS handles the swap)
             if (cell.classList.contains('selected')) {
               cell.classList.remove('selected');
               lionSelections = lionSelections.filter(w => w !== word);
@@ -613,17 +598,21 @@
           const sortedGroup = groupWords.slice().sort();
           if (JSON.stringify(sortedSelected) === JSON.stringify(sortedGroup)) {
             matchFound = true;
-            // Animate correct selection: add 'solved' class to selected cells
+            // Add merge animation to selected cells
             const selectedCells = document.querySelectorAll('.wall-cell.selected');
-            selectedCells.forEach(cell => cell.classList.add('solved'));
+            selectedCells.forEach(cell => cell.classList.add('merge'));
             setTimeout(() => {
-              // Remove solved cells and insert a group header at the top
-              selectedCells.forEach(cell => cell.remove());
+              lionSolvedCount++;
+              // Determine header color based on solved order
+              const groupColors = ["#fbd534", "#bc70c3", "#739eeb", "#b6e352"];
               const grid = document.getElementById('lion-wall-grid');
+              // Remove the selected cells
+              selectedCells.forEach(cell => cell.remove());
+              // Create a group header cell spanning the grid
               const groupCell = document.createElement('div');
               groupCell.classList.add('group-cell');
+              groupCell.style.backgroundColor = groupColors[lionSolvedCount - 1] || "#092f60";
               groupCell.innerHTML = `<strong>${category}</strong><br>${groupWords.join(", ")}`;
-              // Insert the new group header at the top (it will push down remaining cells)
               grid.insertBefore(groupCell, grid.firstChild);
               lionSelections = [];
             }, 500);
@@ -631,7 +620,7 @@
           }
         }
         if (!matchFound) {
-          // Animate shake for incorrect selection
+          // Shake animation for wrong selection
           const selectedCells = document.querySelectorAll('.wall-cell.selected');
           selectedCells.forEach(cell => cell.classList.add('shake'));
           setTimeout(() => {

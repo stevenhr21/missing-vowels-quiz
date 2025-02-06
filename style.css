@@ -372,10 +372,10 @@ button:focus, .icon-button:focus {
 .wall-rectangle {
   background: linear-gradient(135deg, #d3dce5, #c1d2e3);
   border-radius: 8px;
-  padding: 20px;
+  padding: 15px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.125em;
   color: #092f60;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, transform 0.2s;
@@ -396,22 +396,31 @@ button:focus, .icon-button:focus {
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin: 20px auto;
-  max-width: 600px;
+  /* Reduced overall grid width to 450px for 25% smaller cells */
+  max-width: 450px;
 }
 .wall-cell {
   background: linear-gradient(135deg, #d3dce5, #c1d2e3);
   border-radius: 8px;
-  padding: 20px;
+  padding: 7px;
   text-align: center;
-  font-size: 1em;
+  font-size: 1em; /* Text back to normal */
   color: #092f60;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   transition: background 0.3s, color 0.3s, transform 0.3s;
   cursor: pointer;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .wall-cell.selected {
   background: #092f60;
   color: #d3dce5;
+}
+.wall-cell.merge {
+  transform: translateY(-150%);
+  opacity: 0;
 }
 @keyframes shake {
   0% { transform: translateX(0); }
@@ -426,12 +435,12 @@ button:focus, .icon-button:focus {
 
 /* Group Header Cell for Solved Group */
 .group-cell {
-  background: #092f60;
-  color: #d3dce5;
+  background: inherit;
+  color: #092f60;
   border-radius: 8px;
-  padding: 20px;
+  padding: 7px;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1em;
   grid-column: span 4;
   transition: all 0.5s ease;
 }
